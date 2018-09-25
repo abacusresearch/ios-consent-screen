@@ -1,0 +1,28 @@
+PODS:
+  - DLRadioButton (1.4.12)
+  - PureLayout (3.1.2)
+
+DEPENDENCIES:
+  - DLRadioButton (from `https://github.com/fuggly/DLRadioButton`)
+  - PureLayout
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - PureLayout
+
+EXTERNAL SOURCES:
+  DLRadioButton:
+    :git: https://github.com/fuggly/DLRadioButton
+
+CHECKOUT OPTIONS:
+  DLRadioButton:
+    :commit: e3e11f35f624bdb3d6c7f248aeaa7e2db194996e
+    :git: https://github.com/fuggly/DLRadioButton
+
+SPEC CHECKSUMS:
+  DLRadioButton: 8a6f96b89f5cbaa26fa68edd239baa828ba9b244
+  PureLayout: 4634d0b61e3b5021166e8ec7c18e9e0ca0720c8b
+
+PODFILE CHECKSUM: 88a603defb4507939877bc06628f701afd4ed5d0
+
+COCOAPODS: 1.5.3

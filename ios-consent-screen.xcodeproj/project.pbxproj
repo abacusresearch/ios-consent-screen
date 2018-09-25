@@ -12,9 +12,14 @@
 		984CED072159289A00FBFAB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 984CED052159289A00FBFAB5 /* Main.storyboard */; };
 		984CED092159289A00FBFAB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 984CED082159289A00FBFAB5 /* Assets.xcassets */; };
 		984CED0C2159289A00FBFAB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 984CED0A2159289A00FBFAB5 /* LaunchScreen.storyboard */; };
+		984CED142159295000FBFAB5 /* ConsentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984CED132159295000FBFAB5 /* ConsentViewController.swift */; };
+		DF51DDFA43867861573E92D6 /* Pods_ios_consent_screen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1533436C608E2DE1A977A4F3 /* Pods_ios_consent_screen.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1533436C608E2DE1A977A4F3 /* Pods_ios_consent_screen.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ios_consent_screen.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BE5B68055C64EDFB44BAA1C /* Pods-ios-consent-screen.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-consent-screen.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ios-consent-screen/Pods-ios-consent-screen.debug.xcconfig"; sourceTree = "<group>"; };
+		906E19833F44D0F035E34522 /* Pods-ios-consent-screen.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ios-consent-screen.release.xcconfig"; path = "Pods/Target Support Files/Pods-ios-consent-screen/Pods-ios-consent-screen.release.xcconfig"; sourceTree = "<group>"; };
 		984CECFE2159289A00FBFAB5 /* ios-consent-screen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-consent-screen.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		984CED012159289A00FBFAB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		984CED032159289A00FBFAB5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +27,7 @@
 		984CED082159289A00FBFAB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		984CED0B2159289A00FBFAB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		984CED0D2159289B00FBFAB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		984CED132159295000FBFAB5 /* ConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +35,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF51DDFA43867861573E92D6 /* Pods_ios_consent_screen.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		67B5C328B797A5EE5AB92E78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1533436C608E2DE1A977A4F3 /* Pods_ios_consent_screen.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		984CECF52159289A00FBFAB5 = {
 			isa = PBXGroup;
 			children = (
 				984CED002159289A00FBFAB5 /* ios-consent-screen */,
 				984CECFF2159289A00FBFAB5 /* Products */,
+				9C3CFF4235D512A5676C2A6A /* Pods */,
+				67B5C328B797A5EE5AB92E78 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,9 +76,19 @@
 				984CED052159289A00FBFAB5 /* Main.storyboard */,
 				984CED082159289A00FBFAB5 /* Assets.xcassets */,
 				984CED0A2159289A00FBFAB5 /* LaunchScreen.storyboard */,
+				984CED132159295000FBFAB5 /* ConsentViewController.swift */,
 				984CED0D2159289B00FBFAB5 /* Info.plist */,
 			);
 			path = "ios-consent-screen";
+			sourceTree = "<group>";
+		};
+		9C3CFF4235D512A5676C2A6A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2BE5B68055C64EDFB44BAA1C /* Pods-ios-consent-screen.debug.xcconfig */,
+				906E19833F44D0F035E34522 /* Pods-ios-consent-screen.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +98,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 984CED102159289B00FBFAB5 /* Build configuration list for PBXNativeTarget "ios-consent-screen" */;
 			buildPhases = (
+				81B7E3A353B2E11730AF3314 /* [CP] Check Pods Manifest.lock */,
 				984CECFA2159289A00FBFAB5 /* Sources */,
 				984CECFB2159289A00FBFAB5 /* Frameworks */,
 				984CECFC2159289A00FBFAB5 /* Resources */,
+				FD2B196573F74E72972CFC5B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,12 +159,62 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		81B7E3A353B2E11730AF3314 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ios-consent-screen-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FD2B196573F74E72972CFC5B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-ios-consent-screen/Pods-ios-consent-screen-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/DLRadioButton/DLRadioButton.framework",
+				"${BUILT_PRODUCTS_DIR}/PureLayout/PureLayout.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DLRadioButton.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PureLayout.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ios-consent-screen/Pods-ios-consent-screen-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		984CECFA2159289A00FBFAB5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				984CED042159289A00FBFAB5 /* ViewController.swift in Sources */,
+				984CED142159295000FBFAB5 /* ConsentViewController.swift in Sources */,
 				984CED022159289A00FBFAB5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,6 +359,7 @@
 		};
 		984CED112159289B00FBFAB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2BE5B68055C64EDFB44BAA1C /* Pods-ios-consent-screen.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -298,6 +378,7 @@
 		};
 		984CED122159289B00FBFAB5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 906E19833F44D0F035E34522 /* Pods-ios-consent-screen.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

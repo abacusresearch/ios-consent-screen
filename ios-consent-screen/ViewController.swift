@@ -15,6 +15,10 @@ class ViewController: UIViewController {
     // Do any additional setup after loading the view, typically from a nib.
   }
 
-
+  @IBAction func tapped(_ sender: Any) {
+    let vc = ConsentViewController.init(nibName: nil, bundle: nil)
+    present(vc, animated: true, completion: nil)
+  }
+  
 }
 
