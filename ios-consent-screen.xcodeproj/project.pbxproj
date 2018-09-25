@@ -259,6 +259,7 @@
 				984CED1B215A602000FBFAB5 /* en */,
 			);
 			name = Localizable.strings;
+			path = ../Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
