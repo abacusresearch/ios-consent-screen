@@ -30,6 +30,9 @@ protocol ConsentScreenDelegate {
   func consentScreenCommited(chosenOption: ConsentOption)
 }
 
+class ContentView: UIView {
+}
+
 class ConsentButton: UIView {
   let button = DLRadioButton()
   let title = UILabel()
@@ -51,10 +54,11 @@ class ConsentButton: UIView {
     message.textAlignment = .natural
     message.numberOfLines = 0
     message.font = UIFont.systemFont(ofSize: 15)
-    message.textColor = UIColor.lightGray
+    message.textColor = UIColor.brownishGrey
     
     button.iconSize = 23
     button.iconColor = UIColor.darkSkyBlue
+    button.indicatorColor = UIColor.darkSkyBlue
     
     addSubview(button)
     addSubview(title)
@@ -63,7 +67,7 @@ class ConsentButton: UIView {
     button.autoPinEdge(toSuperviewEdge: .top)
     button.autoPinEdge(toSuperviewEdge: .leading)
     button.autoSetDimensions(to: CGSize.init(width: 23, height: 23))
-
+    
     title.autoPinEdge(.leading, to: .trailing, of: button, withOffset: 8)
     title.autoAlignAxis(.horizontal, toSameAxisOf: button)
     title.autoPinEdge(toSuperviewEdge: .trailing)
@@ -74,8 +78,20 @@ class ConsentButton: UIView {
     message.autoConstrainAttribute(.trailing, to: .trailing, of: title)
     message.autoSetDimension(.height, toSize: 23, relation: .greaterThanOrEqual)
     message.autoPinEdge(toSuperviewEdge: .bottom)
+    
+    let recognizer = UITapGestureRecognizer.init(target: self, action: #selector(buttonTapped))
+    addGestureRecognizer(recognizer)
+  }
+  
+  @objc func buttonTapped() {
+    button.isSelected = true
   }
 }
+
+
+
+
+
 
 @objc
 class ConsentViewController: UIViewController {
@@ -91,6 +107,8 @@ class ConsentViewController: UIViewController {
   let buttonConfirm = UIButton()
   let buttonInformation = UIButton()
   let optionPanel = UIView()
+  let scrollView = UIScrollView()
+  let contentView = ContentView()
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     options = ConsentOptions()
@@ -104,33 +122,47 @@ class ConsentViewController: UIViewController {
     setup()
   }
   
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    scrollView.contentSize = contentView.bounds.size
+    
+  }
+  
   func setup() {
-    view.addSubview(titleLabel)
-    view.addSubview(messageLabel)
-    view.addSubview(optionPanel)
-    view.addSubview(buttonConfirm)
-    view.addSubview(buttonInformation)
-
-    titleLabel.textAlignment = .center
+    view.addSubview(scrollView)
+    scrollView.addSubview(contentView)
+    scrollView.autoPinEdgesToSuperviewMargins()
+    contentView.autoPinEdgesToSuperviewEdges(with: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+    contentView.autoMatch(.height, to: .height, of: scrollView, withOffset: 0, relation: .greaterThanOrEqual)
+    contentView.addSubview(titleLabel)
+    contentView.addSubview(messageLabel)
+    contentView.addSubview(optionPanel)
+    contentView.addSubview(buttonConfirm)
+    contentView.addSubview(buttonInformation)
+    
+    titleLabel.textAlignment = .natural
     titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
     titleLabel.text = "consent options title label".localized()
     titleLabel.numberOfLines = 0
-
-    titleLabel.autoPin(toTopLayoutGuideOf: self, withInset: 50)
-    titleLabel.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
-    titleLabel.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
     
-    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 20)
+    titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 0)
+    titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 0)
+    titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 0)
+    titleLabel.autoMatch(.width, to: .width, of: scrollView, withOffset: 0, relation: .lessThanOrEqual)
+    
+    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 0)
     messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
     messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
+    messageLabel.autoMatch(.width, to: .width, of: scrollView, withOffset: 0, relation: .lessThanOrEqual)
+
     messageLabel.textAlignment = .natural
     messageLabel.font = UIFont.systemFont(ofSize: 15)
-    messageLabel.text = "consent options message label"
+    messageLabel.text = "consent options message label".localized()
     messageLabel.numberOfLines = 0
     
-    optionPanel.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
-    optionPanel.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
-    optionPanel.autoPinEdge(.top, to: .bottom, of: messageLabel, withOffset: 20)
+//    optionPanel.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
+//    optionPanel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+//    optionPanel.autoPinEdge(.top, to: .bottom, of: messageLabel, withOffset: 20)
     
     buttonConfirm.layer.cornerRadius = 8
     buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
@@ -138,30 +170,30 @@ class ConsentViewController: UIViewController {
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
     buttonConfirm.setTitle("consent options confirm title".localized(), for: .normal)
     
-    buttonConfirm.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
-    buttonConfirm.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
-    buttonConfirm.autoPinEdge(.top, to: .bottom, of: optionPanel, withOffset: 20)
-    buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
+//    buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
+//    buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+//    buttonConfirm.autoPinEdge(.top, to: .bottom, of: optionPanel, withOffset: 40)
+//    buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
     
-    buttonInformation.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
-    buttonInformation.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
-    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 12)
+//    buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
+//    buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+//    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 12)
+
     buttonInformation.setTitle("consent options information title".localized(), for: .normal)
-    
     buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     
     buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
-
+    
     view.backgroundColor = UIColor.white
   }
   
-  @IBAction func buttonTapped() {
-    
+  @objc func buttonTapped() {
+    print ("tapped")
   }
   
-  @IBAction func buttonInfoTapped() {
+  @objc func buttonInfoTapped() {
     UIApplication.shared.open(options.privacyPolicyURL, options: [:], completionHandler: nil)
   }
   
@@ -177,22 +209,27 @@ class ConsentViewController: UIViewController {
     if (self.options.allowsDiagnoseReporting) {
       buttons.append(ConsentButton.init(title: "consent button diagnose reporting title", message: "consent button diagnose reporting message"))
     }
-    buttons.forEach { (button) in
-      optionPanel.addSubview(button)
-      button.autoPinEdge(toSuperviewEdge: .leading)
-      button.autoPinEdge(toSuperviewEdge: .trailing)
-    }
-    if let thebuttons = buttons as? NSArray {
-      thebuttons.autoDistributeViews(along: .vertical, alignedTo: .leading, withFixedSpacing: 20)
-    }
-    let radios = buttons.map { (button) -> DLRadioButton in
-      return button.button
-    }
-    buttons[selectedOption.rawValue].button.isSelected = true
-    radios.forEach { (button) in
-      button.otherButtons = radios
-    }
-    
+//    var priorView: UIView?
+//    buttons.forEach { (button) in
+//      optionPanel.addSubview(button)
+//      button.autoPinEdge(toSuperviewEdge: .leading)
+//      button.autoPinEdge(toSuperviewEdge: .trailing)
+//      if nil == priorView {
+//        button.autoPinEdge(toSuperviewEdge: .top)
+//      }
+//      else {
+//        button.autoPinEdge(.top, to: .bottom, of: priorView!, withOffset: 20)
+//      }
+//      priorView = button
+//    }
+//    priorView?.autoPinEdge(toSuperviewEdge: .bottom)
+//    let radios = buttons.map { (button) -> DLRadioButton in
+//      return button.button
+//    }
+//    buttons[selectedOption.rawValue].button.isSelected = true
+//    radios.forEach { (button) in
+//      button.otherButtons = radios
+//    }
     super.updateViewConstraints()
   }
   
@@ -210,8 +247,12 @@ extension String {
 
 
 extension UIColor {
+  
   @nonobjc class var darkSkyBlue: UIColor {
     return UIColor(red: 54.0 / 255.0, green: 129.0 / 255.0, blue: 221.0 / 255.0, alpha: 1.0)
   }
-
+  
+  @nonobjc class var brownishGrey: UIColor {
+    return UIColor(white: 102.0 / 255.0, alpha: 1.0)
+  }
 }
