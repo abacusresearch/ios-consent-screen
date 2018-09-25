@@ -11,10 +11,23 @@ import PureLayout
 import DLRadioButton
 
 @objc
+enum ConsentOption: Int {
+  case NoReporting = 0
+  case BugReporting = 1
+  case FullReporting = 2
+}
+
+@objc
 public class ConsentOptions: NSObject {
   var allowsDiagnoseReporting: Bool = true
   var allowsBugReporting: Bool = true
   var allowsNoReporting: Bool = true
+  var privacyPolicyURL: URL = URL.init(string: "https://www.abacus.ch/links/privacy-policy/mobile-apps")!
+}
+
+@objc
+protocol ConsentScreenDelegate {
+  func consentScreenCommited(chosenOption: ConsentOption)
 }
 
 class ConsentButton: UIView {
@@ -37,6 +50,9 @@ class ConsentButton: UIView {
     message.textAlignment = .justified
     message.font = UIFont.systemFont(ofSize: 15)
     message.textColor = UIColor.lightGray
+    
+    button.iconSize = 23
+    button.iconColor = UIColor.darkSkyBlue
     
     addSubview(button)
     addSubview(title)
@@ -86,10 +102,10 @@ class ConsentViewController: UIViewController {
   func setup() {
     view.addSubview(titleLabel)
     view.addSubview(messageLabel)
+    view.addSubview(optionPanel)
     view.addSubview(buttonConfirm)
     view.addSubview(buttonInformation)
-    view.addSubview(optionPanel)
-    
+
     titleLabel.autoPin(toTopLayoutGuideOf: self, withInset: 50)
     titleLabel.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
     titleLabel.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
@@ -127,7 +143,18 @@ class ConsentViewController: UIViewController {
     buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     
+    buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
+
     view.backgroundColor = UIColor.white
+  }
+  
+  @IBAction func buttonTapped() {
+    
+  }
+  
+  @IBAction func buttonInfoTapped() {
+    UIApplication.shared.open(options.privacyPolicyURL, options: [:], completionHandler: nil)
   }
   
   override func updateViewConstraints() {
@@ -144,6 +171,11 @@ class ConsentViewController: UIViewController {
     }
     buttons.forEach { (button) in
       optionPanel.addSubview(button)
+      button.autoPinEdge(toSuperviewEdge: .leading)
+      button.autoPinEdge(toSuperviewEdge: .trailing)
+    }
+    if let thebuttons = buttons as? NSArray {
+      thebuttons.autoDistributeViews(along: .vertical, alignedTo: .leading, withFixedSpacing: 20)
     }
     let radios = buttons.map { (button) -> DLRadioButton in
       return button.button
