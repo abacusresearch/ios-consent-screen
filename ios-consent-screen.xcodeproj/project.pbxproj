@@ -13,6 +13,7 @@
 		984CED092159289A00FBFAB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 984CED082159289A00FBFAB5 /* Assets.xcassets */; };
 		984CED0C2159289A00FBFAB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 984CED0A2159289A00FBFAB5 /* LaunchScreen.storyboard */; };
 		984CED142159295000FBFAB5 /* ConsentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984CED132159295000FBFAB5 /* ConsentViewController.swift */; };
+		984CED1A215A602000FBFAB5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 984CED1C215A602000FBFAB5 /* Localizable.strings */; };
 		DF51DDFA43867861573E92D6 /* Pods_ios_consent_screen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1533436C608E2DE1A977A4F3 /* Pods_ios_consent_screen.framework */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +28,9 @@
 		984CED082159289A00FBFAB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		984CED0B2159289A00FBFAB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		984CED0D2159289B00FBFAB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		984CED132159295000FBFAB5 /* ConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentViewController.swift; sourceTree = "<group>"; };
+		984CED132159295000FBFAB5 /* ConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConsentViewController.swift; path = ../Classes/ConsentViewController.swift; sourceTree = "<group>"; };
+		984CED17215A5FCE00FBFAB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		984CED1B215A602000FBFAB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,10 +79,20 @@
 				984CED052159289A00FBFAB5 /* Main.storyboard */,
 				984CED082159289A00FBFAB5 /* Assets.xcassets */,
 				984CED0A2159289A00FBFAB5 /* LaunchScreen.storyboard */,
-				984CED132159295000FBFAB5 /* ConsentViewController.swift */,
+				984CED15215A582B00FBFAB5 /* Classes */,
 				984CED0D2159289B00FBFAB5 /* Info.plist */,
 			);
 			path = "ios-consent-screen";
+			sourceTree = "<group>";
+		};
+		984CED15215A582B00FBFAB5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				984CED132159295000FBFAB5 /* ConsentViewController.swift */,
+				984CED1C215A602000FBFAB5 /* Localizable.strings */,
+			);
+			name = Classes;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 		9C3CFF4235D512A5676C2A6A /* Pods */ = {
@@ -152,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				984CED0C2159289A00FBFAB5 /* LaunchScreen.storyboard in Resources */,
+				984CED1A215A602000FBFAB5 /* Localizable.strings in Resources */,
 				984CED092159289A00FBFAB5 /* Assets.xcassets in Resources */,
 				984CED072159289A00FBFAB5 /* Main.storyboard in Resources */,
 			);
@@ -226,6 +240,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				984CED062159289A00FBFAB5 /* Base */,
+				984CED17215A5FCE00FBFAB5 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -236,6 +251,14 @@
 				984CED0B2159289A00FBFAB5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		984CED1C215A602000FBFAB5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				984CED1B215A602000FBFAB5 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

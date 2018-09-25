@@ -202,7 +202,8 @@ class ConsentViewController: UIViewController {
 extension String {
   
   func localized(withComment comment: String? = nil) -> String {
-    return NSLocalizedString(self, comment: comment ?? "")
+    let bundle = Bundle.init(for: ConsentViewController.self)
+    return NSLocalizedString(self, bundle: bundle, comment: comment ?? "")
   }
   
 }

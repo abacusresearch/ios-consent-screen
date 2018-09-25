@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  ios-consent-screen
+
+  Created by Roger Misteli on 25.09.18.
+  Copyright © 2018 ABACUS Research AG. All rights reserved.
+*/
+
+"consent options title label" = "Ihre Diagnosedaten verbessern die App";
+"consent options message label" = "Erlauben Sie uns, Diagnosedaten zu verwenden, um diese App sicherer, effizienter und fehlerfrei zu machen. Wählen Sie eine Option aus. Sie können diese Einstellung jederzeit ändern.";
+"consent options confirm title" = "Bestätigen";
+"consent options information title" = "Weitere Informationen";
+"consent button no reporting title" = "Keine Diagnosedaten";
+"consent button no reporting message" = "Es werden keine Diagnosedaten gesendet. Wir können Sie im Fehlerfall unter Umständen nicht unterstützen.";
+"consent button bug reporting title" = "Grundlegende Diagnosedaten";
+"consent button bug reporting message" = "Informationen zur Fehleranalyse und -diagnose senden.";
+"consent button diagnose reporting title" = "Vollständige Diagnosedaten";
+"consent button diagnose reporting message" = "Informationen darüber, wie Sie die App, Funktionen und Geräte verqwenden, werden zusätzlich zu den grundlegenden Diagnosedaten erhoben. Inhalte werden keine gesendet.";
