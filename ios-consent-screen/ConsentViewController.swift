@@ -44,10 +44,12 @@ class ConsentButton: UIView {
     title.text = t.localized()
     message.text = m.localized()
     
-    title.textAlignment = .left
+    title.textAlignment = .natural
+    title.numberOfLines = 0
     title.font = UIFont.boldSystemFont(ofSize: 15)
     
-    message.textAlignment = .justified
+    message.textAlignment = .natural
+    message.numberOfLines = 0
     message.font = UIFont.systemFont(ofSize: 15)
     message.textColor = UIColor.lightGray
     
@@ -58,18 +60,20 @@ class ConsentButton: UIView {
     addSubview(title)
     addSubview(message)
     
+    button.autoPinEdge(toSuperviewEdge: .top)
     button.autoPinEdge(toSuperviewEdge: .leading)
-    button.autoAlignAxis(.horizontal, toSameAxisOf: title)
     button.autoSetDimensions(to: CGSize.init(width: 23, height: 23))
 
     title.autoPinEdge(.leading, to: .trailing, of: button, withOffset: 8)
+    title.autoAlignAxis(.horizontal, toSameAxisOf: button)
     title.autoPinEdge(toSuperviewEdge: .trailing)
-    title.autoSetDimension(.height, toSize: 44, relation: .greaterThanOrEqual)
+    title.autoSetDimension(.height, toSize: 23, relation: .greaterThanOrEqual)
     
-    message.autoPinEdge(.top, to: .bottom, of: title, withOffset: 12)
+    message.autoPinEdge(.top, to: .bottom, of: title, withOffset: 2)
     message.autoConstrainAttribute(.leading, to: .leading, of: title)
     message.autoConstrainAttribute(.trailing, to: .trailing, of: title)
-    message.autoSetDimension(.height, toSize: 44, relation: .greaterThanOrEqual)
+    message.autoSetDimension(.height, toSize: 23, relation: .greaterThanOrEqual)
+    message.autoPinEdge(toSuperviewEdge: .bottom)
   }
 }
 
@@ -81,6 +85,7 @@ class ConsentViewController: UIViewController {
       updateViewConstraints()
     }
   }
+  public var selectedOption: ConsentOption = .FullReporting
   let titleLabel = UILabel()
   let messageLabel = UILabel()
   let buttonConfirm = UIButton()
@@ -106,19 +111,22 @@ class ConsentViewController: UIViewController {
     view.addSubview(buttonConfirm)
     view.addSubview(buttonInformation)
 
-    titleLabel.autoPin(toTopLayoutGuideOf: self, withInset: 50)
-    titleLabel.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
-    titleLabel.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
     titleLabel.textAlignment = .center
     titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
     titleLabel.text = "consent options title label".localized()
+    titleLabel.numberOfLines = 0
+
+    titleLabel.autoPin(toTopLayoutGuideOf: self, withInset: 50)
+    titleLabel.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
+    titleLabel.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
     
     messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 20)
     messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
     messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
-    messageLabel.textAlignment = .justified
+    messageLabel.textAlignment = .natural
     messageLabel.font = UIFont.systemFont(ofSize: 15)
     messageLabel.text = "consent options message label"
+    messageLabel.numberOfLines = 0
     
     optionPanel.autoPinEdge(toSuperviewMargin: .leading, withInset: 20)
     optionPanel.autoPinEdge(toSuperviewMargin: .trailing, withInset: 20)
@@ -180,6 +188,7 @@ class ConsentViewController: UIViewController {
     let radios = buttons.map { (button) -> DLRadioButton in
       return button.button
     }
+    buttons[selectedOption.rawValue].button.isSelected = true
     radios.forEach { (button) in
       button.otherButtons = radios
     }
