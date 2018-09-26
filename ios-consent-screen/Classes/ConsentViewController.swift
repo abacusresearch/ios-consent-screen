@@ -47,6 +47,7 @@ struct ConsentUIDefaults {
   static let trailingOffset: CGFloat = 10
   static let titleOffset: CGFloat = 10
   static let detailOffset: CGFloat = 2
+  static let blockOffset: CGFloat = 25
 }
 
 @objc
@@ -112,6 +113,8 @@ class ConsentButtonCell: ConsentCell {
     
     let recognizer = UITapGestureRecognizer.init(target: self, action: #selector(buttonTapped))
     addGestureRecognizer(recognizer)
+    
+    button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
   }
   
   override func setup(title t: String, message m: String) {
@@ -150,7 +153,7 @@ class ContentTitleCell: ConsentCell {
     messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: ConsentUIDefaults.titleOffset)
     messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
     messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
-    messageLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
+    messageLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.blockOffset)
     
     messageLabel.textAlignment = .natural
     messageLabel.font = UIFont.systemFont(ofSize: 15)
@@ -190,7 +193,7 @@ class ContentFooterCell: ConsentCell {
     buttonConfirm.setTitleColor(UIColor.white, for: .normal)
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
 
-    buttonConfirm.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.blockOffset)
     buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
     buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
     buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
@@ -199,7 +202,8 @@ class ContentFooterCell: ConsentCell {
     buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
     buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: ConsentUIDefaults.detailOffset)
     buttonInformation.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
-    
+    buttonInformation.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
+
     buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     
@@ -212,7 +216,7 @@ class ContentFooterCell: ConsentCell {
   }
   
   @objc func buttonTapped() {
-    print ("tapped")
+  
   }
   
   override func setup(title t: String, message m: String) {
@@ -244,6 +248,7 @@ class ConsentViewController: UIViewController {
   }
   public var defaults = ConsentDefaults()
   var cells = [CellTypes]()
+  var radios = [DLRadioButton]()
   var tableView = UITableView(frame: .zero, style: .plain)
   public var selectedOption: ConsentOption = .FullReporting
   
@@ -272,6 +277,8 @@ class ConsentViewController: UIViewController {
     tableView.autoPinEdgesToSuperviewMargins()
     tableView.delegate = self
     tableView.dataSource = self
+    tableView.separatorStyle = .none
+    tableView.showsVerticalScrollIndicator = false
     tableView.register(ContentTitleCell.self, forCellReuseIdentifier: CellTypes.title.rawValue)
     tableView.register(ContentFooterCell.self, forCellReuseIdentifier: CellTypes.footer.rawValue)
     tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.fullReporting.rawValue)
@@ -294,6 +301,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate {
   func numberOfSections(in tableView: UITableView) -> Int {
     cells.removeAll()
     cells.append(.title)
+    radios.removeAll()
     if options.allowsNoReporting {
       cells.append(.noReporting)
     }
@@ -318,11 +326,26 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate {
     cell.defaults = defaults
     switch cellType {
     case .fullReporting:
-        cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+      if let radioCell = cell as? ConsentButtonCell {
+        radios.append(radioCell.button)
+      }
     case .noReporting:
-        cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+      if let radioCell = cell as? ConsentButtonCell {
+        radios.append(radioCell.button)
+      }
     case .bugReporting:
-        cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(), message: defaults.keyConsentOptionBugReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(), message: defaults.keyConsentOptionBugReportingMessage.localized())
+      if let radioCell = cell as? ConsentButtonCell {
+        radios.append(radioCell.button)
+      }
+    case .footer:
+      radios.forEach { (button) in
+        button.otherButtons = radios.filter({ (included) -> Bool in
+          included != button
+        })
+      }
     default:
       cell.setup(title: "", message: "")
     }
