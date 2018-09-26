@@ -335,9 +335,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     case .noReporting:
       self.selectedOption = .NoReporting
     case .footer:
-      self.dismiss(animated: true) {
-        self.delegate?.consentScreenCommited(chosenOption: self.selectedOption)
-      }
+      self.delegate?.consentScreenCommited(chosenOption: self.selectedOption)
     default:
       // do nothing
       break

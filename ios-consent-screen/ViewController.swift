@@ -22,7 +22,9 @@ class ViewController: UIViewController, ConsentScreenDelegate {
   }
   
   func consentScreenCommited(chosenOption: ConsentOption) {
-    print ("You chose option \(chosenOption.rawValue)")
+    dismiss(animated: true) {
+      print ("You chose option \(chosenOption.rawValue)")
+    }
   }
   
 }
