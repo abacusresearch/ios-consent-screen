@@ -39,6 +39,16 @@ public class ConsentDefaults: NSObject {
   var keyConsentInformation: String = "consent options button information"
 }
 
+struct ConsentUIDefaults {
+  static let leadingOffset: CGFloat = 10
+  static let topOffset: CGFloat = 10
+  static let cellOffset: CGFloat = 20
+  static let bottomOffset: CGFloat = 10
+  static let trailingOffset: CGFloat = 10
+  static let titleOffset: CGFloat = 10
+  static let detailOffset: CGFloat = 2
+}
+
 @objc
 protocol ConsentScreenDelegate {
   func consentScreenCommited(chosenOption: ConsentOption)
@@ -85,20 +95,20 @@ class ConsentButtonCell: ConsentCell {
     addSubview(title)
     addSubview(message)
     
-    button.autoPinEdge(toSuperviewEdge: .top)
-    button.autoPinEdge(toSuperviewEdge: .leading)
+    button.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
+    button.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
     button.autoSetDimensions(to: CGSize.init(width: 23, height: 23))
     
     title.autoPinEdge(.leading, to: .trailing, of: button, withOffset: 8)
     title.autoAlignAxis(.horizontal, toSameAxisOf: button)
-    title.autoPinEdge(toSuperviewEdge: .trailing)
+    title.autoPinEdge(toSuperviewEdge: .trailing, withInset:ConsentUIDefaults.bottomOffset)
     title.autoSetDimension(.height, toSize: 23, relation: .greaterThanOrEqual)
     
-    message.autoPinEdge(.top, to: .bottom, of: title, withOffset: 2)
+    message.autoPinEdge(.top, to: .bottom, of: title, withOffset: ConsentUIDefaults.detailOffset)
     message.autoConstrainAttribute(.leading, to: .leading, of: title)
     message.autoConstrainAttribute(.trailing, to: .trailing, of: title)
     message.autoSetDimension(.height, toSize: 23, relation: .greaterThanOrEqual)
-    message.autoPinEdge(toSuperviewEdge: .bottom)
+    message.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
     
     let recognizer = UITapGestureRecognizer.init(target: self, action: #selector(buttonTapped))
     addGestureRecognizer(recognizer)
@@ -114,6 +124,12 @@ class ConsentButtonCell: ConsentCell {
   }
 }
 
+
+
+
+
+
+
 class ContentTitleCell: ConsentCell {
   
   var titleLabel = UILabel()
@@ -127,14 +143,14 @@ class ContentTitleCell: ConsentCell {
     titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
     titleLabel.numberOfLines = 0
     
-    titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 0)
-    titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 0)
-    titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 0)
+    titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
+    titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
+    titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
     
-    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 0)
+    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: ConsentUIDefaults.titleOffset)
     messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
     messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
-    messageLabel.autoPinEdge(toSuperviewEdge: .bottom)
+    messageLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
     
     messageLabel.textAlignment = .natural
     messageLabel.font = UIFont.systemFont(ofSize: 15)
@@ -152,6 +168,12 @@ class ContentTitleCell: ConsentCell {
 
 }
 
+
+
+
+
+
+
 class ContentFooterCell: ConsentCell {
   
   var buttonConfirm = UIButton()
@@ -167,14 +189,16 @@ class ContentFooterCell: ConsentCell {
     buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
     buttonConfirm.setTitleColor(UIColor.white, for: .normal)
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-    
-    buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
-    buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
     buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
     
-    buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
-    buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
-    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 12)
+    buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
+    buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
+    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: ConsentUIDefaults.detailOffset)
+    buttonInformation.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
     
     buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
