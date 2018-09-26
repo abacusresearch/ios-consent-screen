@@ -22,7 +22,21 @@ public class ConsentOptions: NSObject {
   var allowsDiagnoseReporting: Bool = true
   var allowsBugReporting: Bool = true
   var allowsNoReporting: Bool = true
+}
+
+@objc
+public class ConsentDefaults: NSObject {
   var privacyPolicyURL: URL = URL.init(string: "https://www.abacus.ch/links/privacy-policy/mobile-apps")!
+  var keyConsentTitle: String = "consent options title"
+  var keyConsentMessage: String = "consent options message"
+  var keyConsentOptionNoReportingTitle = "consent cell no reporting title"
+  var keyConsentOptionNoReportingMessage = "consent cell no reporting message"
+  var keyConsentOptionBugReportingTitle = "consent cell bug reporting title"
+  var keyConsentOptionBugReportingMessage = "consent cell bug reporting message"
+  var keyConsentOptionDiagnoseReportingTitle = "consent cell diagnose reporting title"
+  var keyConsentOptionDiagnoseReportingMessage = "consent cell diagnose reporting message"
+  var keyConsentConfirmation: String = "consent options button confirm"
+  var keyConsentInformation: String = "consent options button information"
 }
 
 @objc
@@ -30,23 +44,30 @@ protocol ConsentScreenDelegate {
   func consentScreenCommited(chosenOption: ConsentOption)
 }
 
-class ContentView: UIView {
+class ConsentCell: UITableViewCell {
+  var options: ConsentOptions?
+  var defaults: ConsentDefaults?
+  func setup(title t: String, message m: String) {
+  }
 }
 
-class ConsentButton: UIView {
+
+
+
+
+
+class ConsentButtonCell: ConsentCell {
   let button = DLRadioButton()
   let title = UILabel()
   let message = UILabel()
   
   required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: aDecoder)
   }
   
-  init(title t: String, message m: String) {
-    super.init(frame: .zero)
-    title.text = t.localized()
-    message.text = m.localized()
-    
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+
     title.textAlignment = .natural
     title.numberOfLines = 0
     title.font = UIFont.boldSystemFont(ofSize: 15)
@@ -83,10 +104,99 @@ class ConsentButton: UIView {
     addGestureRecognizer(recognizer)
   }
   
+  override func setup(title t: String, message m: String) {
+    title.text = t.localized()
+    message.text = m.localized()
+  }
+  
   @objc func buttonTapped() {
     button.isSelected = true
   }
 }
+
+class ContentTitleCell: ConsentCell {
+  
+  var titleLabel = UILabel()
+  var messageLabel = UILabel()
+  
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    addSubview(titleLabel)
+    addSubview(messageLabel)
+    titleLabel.textAlignment = .natural
+    titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
+    titleLabel.text = defaults?.keyConsentTitle.localized()
+    titleLabel.numberOfLines = 0
+    
+    titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 0)
+    titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 0)
+    titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 0)
+    
+    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 0)
+    messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
+    messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
+    
+    messageLabel.textAlignment = .natural
+    messageLabel.font = UIFont.systemFont(ofSize: 15)
+    messageLabel.text = defaults?.keyConsentMessage.localized()
+    messageLabel.numberOfLines = 0
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+
+}
+
+class ContentFooterCell: ConsentCell {
+  
+  var buttonConfirm = UIButton()
+  var buttonInformation = UIButton()
+  
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+
+    addSubview(buttonConfirm)
+    addSubview(buttonInformation)
+    
+    buttonConfirm.layer.cornerRadius = 8
+    buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
+    buttonConfirm.setTitleColor(UIColor.white, for: .normal)
+    buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+    buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(), for: .normal)
+    
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+    buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
+    
+    buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
+    buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
+    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 12)
+    
+    buttonInformation.setTitle(defaults?.keyConsentInformation.localized(), for: .normal)
+    buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
+    buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+    
+    buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+    buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  @objc func buttonTapped() {
+    print ("tapped")
+  }
+  
+  @objc func buttonInfoTapped() {
+    UIApplication.shared.open(defaults!.privacyPolicyURL, options: [:], completionHandler: nil)
+  }
+
+}
+
+
+
 
 
 
@@ -101,14 +211,10 @@ class ConsentViewController: UIViewController {
       updateViewConstraints()
     }
   }
+  public var defaults = ConsentDefaults()
+  var cells = [CellTypes]()
+  var tableView = UITableView(frame: .zero, style: .plain)
   public var selectedOption: ConsentOption = .FullReporting
-  let titleLabel = UILabel()
-  let messageLabel = UILabel()
-  let buttonConfirm = UIButton()
-  let buttonInformation = UIButton()
-  let optionPanel = UIView()
-  let scrollView = UIScrollView()
-  let contentView = ContentView()
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     options = ConsentOptions()
@@ -122,115 +228,74 @@ class ConsentViewController: UIViewController {
     setup()
   }
   
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    scrollView.contentSize = contentView.bounds.size
-    
+  enum CellTypes: String, CaseIterable {
+    case title = "title"
+    case fullReporting = "fullReporting"
+    case bugReporting = "bugReporting"
+    case noReporting = "noReporting"
+    case footer = "footer"
   }
   
   func setup() {
-    view.addSubview(scrollView)
-    scrollView.addSubview(contentView)
-    scrollView.autoPinEdgesToSuperviewMargins()
-    contentView.autoPinEdgesToSuperviewEdges(with: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-    contentView.autoMatch(.height, to: .height, of: scrollView, withOffset: 0, relation: .greaterThanOrEqual)
-    contentView.addSubview(titleLabel)
-    contentView.addSubview(messageLabel)
-    contentView.addSubview(optionPanel)
-    contentView.addSubview(buttonConfirm)
-    contentView.addSubview(buttonInformation)
-    
-    titleLabel.textAlignment = .natural
-    titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
-    titleLabel.text = "consent options title label".localized()
-    titleLabel.numberOfLines = 0
-    
-    titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 0)
-    titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 0)
-    titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 0)
-    titleLabel.autoMatch(.width, to: .width, of: scrollView, withOffset: 0, relation: .lessThanOrEqual)
-    
-    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 0)
-    messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
-    messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
-    messageLabel.autoMatch(.width, to: .width, of: scrollView, withOffset: 0, relation: .lessThanOrEqual)
-
-    messageLabel.textAlignment = .natural
-    messageLabel.font = UIFont.systemFont(ofSize: 15)
-    messageLabel.text = "consent options message label".localized()
-    messageLabel.numberOfLines = 0
-    
-//    optionPanel.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
-//    optionPanel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
-//    optionPanel.autoPinEdge(.top, to: .bottom, of: messageLabel, withOffset: 20)
-    
-    buttonConfirm.layer.cornerRadius = 8
-    buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
-    buttonConfirm.setTitleColor(UIColor.white, for: .normal)
-    buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-    buttonConfirm.setTitle("consent options confirm title".localized(), for: .normal)
-    
-//    buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
-//    buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
-//    buttonConfirm.autoPinEdge(.top, to: .bottom, of: optionPanel, withOffset: 40)
-//    buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
-    
-//    buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
-//    buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
-//    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 12)
-
-    buttonInformation.setTitle("consent options information title".localized(), for: .normal)
-    buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
-    buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-    
-    buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-    buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
-    
+    view.addSubview(tableView)
+    tableView.autoPinEdgesToSuperviewMargins()
+    tableView.delegate = self
+    tableView.dataSource = self
+    tableView.register(ContentTitleCell.self, forCellReuseIdentifier: CellTypes.title.rawValue)
+    tableView.register(ContentFooterCell.self, forCellReuseIdentifier: CellTypes.footer.rawValue)
+    tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.fullReporting.rawValue)
+    tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.bugReporting.rawValue)
+    tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.noReporting.rawValue)
     view.backgroundColor = UIColor.white
+    tableView.reloadData()
   }
   
-  @objc func buttonTapped() {
-    print ("tapped")
+}
+
+
+
+
+
+
+
+extension ConsentViewController: UITableViewDataSource, UITableViewDelegate {
+  
+  func numberOfSections(in tableView: UITableView) -> Int {
+    cells.removeAll()
+    cells.append(.title)
+    if options.allowsNoReporting {
+      cells.append(.noReporting)
+    }
+    if options.allowsBugReporting {
+      cells.append(.bugReporting)
+    }
+    if options.allowsDiagnoseReporting {
+      cells.append(.fullReporting)
+    }
+    cells.append(.footer)
+    return 1;
   }
   
-  @objc func buttonInfoTapped() {
-    UIApplication.shared.open(options.privacyPolicyURL, options: [:], completionHandler: nil)
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return cells.count;
   }
   
-  override func updateViewConstraints() {
-    optionPanel.subviews.forEach { $0.removeFromSuperview() }
-    var buttons = [ConsentButton]()
-    if (self.options.allowsNoReporting) {
-      buttons.append(ConsentButton.init(title: "consent button no reporting title", message: "consent button no reporting message"))
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cellType = CellTypes.allCases[indexPath.row]
+    let cell = tableView.dequeueReusableCell(withIdentifier: cellType.rawValue) as! ConsentCell
+    cell.options = options
+    switch cellType {
+    case .fullReporting:
+        cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+    case .noReporting:
+        cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+    case .bugReporting:
+        cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(), message: defaults.keyConsentOptionBugReportingMessage.localized())
+    default:
+      // do nothing
+      break
     }
-    if (self.options.allowsBugReporting) {
-      buttons.append(ConsentButton.init(title: "consent button bug reporting title", message: "consent button bug reporting message"))
-    }
-    if (self.options.allowsDiagnoseReporting) {
-      buttons.append(ConsentButton.init(title: "consent button diagnose reporting title", message: "consent button diagnose reporting message"))
-    }
-//    var priorView: UIView?
-//    buttons.forEach { (button) in
-//      optionPanel.addSubview(button)
-//      button.autoPinEdge(toSuperviewEdge: .leading)
-//      button.autoPinEdge(toSuperviewEdge: .trailing)
-//      if nil == priorView {
-//        button.autoPinEdge(toSuperviewEdge: .top)
-//      }
-//      else {
-//        button.autoPinEdge(.top, to: .bottom, of: priorView!, withOffset: 20)
-//      }
-//      priorView = button
-//    }
-//    priorView?.autoPinEdge(toSuperviewEdge: .bottom)
-//    let radios = buttons.map { (button) -> DLRadioButton in
-//      return button.button
-//    }
-//    buttons[selectedOption.rawValue].button.isSelected = true
-//    radios.forEach { (button) in
-//      button.otherButtons = radios
-//    }
-    super.updateViewConstraints()
+    return cell
   }
   
 }
