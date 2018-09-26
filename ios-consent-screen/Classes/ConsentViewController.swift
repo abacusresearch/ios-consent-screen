@@ -125,7 +125,6 @@ class ContentTitleCell: ConsentCell {
     addSubview(messageLabel)
     titleLabel.textAlignment = .natural
     titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
-    titleLabel.text = defaults?.keyConsentTitle.localized()
     titleLabel.numberOfLines = 0
     
     titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 0)
@@ -135,15 +134,20 @@ class ContentTitleCell: ConsentCell {
     messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 0)
     messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
     messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
+    messageLabel.autoPinEdge(toSuperviewEdge: .bottom)
     
     messageLabel.textAlignment = .natural
     messageLabel.font = UIFont.systemFont(ofSize: 15)
-    messageLabel.text = defaults?.keyConsentMessage.localized()
     messageLabel.numberOfLines = 0
   }
   
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
+  }
+  
+  override func setup(title t: String, message m: String) {
+    titleLabel.text = defaults?.keyConsentTitle.localized()
+    messageLabel.text = defaults?.keyConsentMessage.localized()
   }
 
 }
@@ -163,7 +167,6 @@ class ContentFooterCell: ConsentCell {
     buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
     buttonConfirm.setTitleColor(UIColor.white, for: .normal)
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-    buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(), for: .normal)
     
     buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: 20)
     buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
@@ -173,7 +176,6 @@ class ContentFooterCell: ConsentCell {
     buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: 20)
     buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 12)
     
-    buttonInformation.setTitle(defaults?.keyConsentInformation.localized(), for: .normal)
     buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     
@@ -187,6 +189,11 @@ class ContentFooterCell: ConsentCell {
   
   @objc func buttonTapped() {
     print ("tapped")
+  }
+  
+  override func setup(title t: String, message m: String) {
+    buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(), for: .normal)
+    buttonInformation.setTitle(defaults?.keyConsentInformation.localized(), for: .normal)
   }
   
   @objc func buttonInfoTapped() {
@@ -284,6 +291,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate {
     let cellType = CellTypes.allCases[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: cellType.rawValue) as! ConsentCell
     cell.options = options
+    cell.defaults = defaults
     switch cellType {
     case .fullReporting:
         cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
@@ -292,8 +300,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate {
     case .bugReporting:
         cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(), message: defaults.keyConsentOptionBugReportingMessage.localized())
     default:
-      // do nothing
-      break
+      cell.setup(title: "", message: "")
     }
     return cell
   }
