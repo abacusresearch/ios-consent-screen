@@ -28,7 +28,7 @@
 		984CED082159289A00FBFAB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		984CED0B2159289A00FBFAB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		984CED0D2159289B00FBFAB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		984CED132159295000FBFAB5 /* ConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConsentViewController.swift; path = "ios-consent-screen/Classes/ConsentViewController.swift"; sourceTree = "<group>"; };
+		984CED132159295000FBFAB5 /* ConsentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentViewController.swift; sourceTree = "<group>"; };
 		984CED17215A5FCE00FBFAB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		984CED1B215A602000FBFAB5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,8 +91,7 @@
 				984CED132159295000FBFAB5 /* ConsentViewController.swift */,
 				984CED1C215A602000FBFAB5 /* Localizable.strings */,
 			);
-			name = Classes;
-			path = Sources;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		9C3CFF4235D512A5676C2A6A /* Pods */ = {
@@ -259,7 +258,7 @@
 				984CED1B215A602000FBFAB5 /* en */,
 			);
 			name = Localizable.strings;
-			path = "ios-consent-screen/Resources";
+			path = ../Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
