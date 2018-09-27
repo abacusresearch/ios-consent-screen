@@ -305,7 +305,7 @@ public class ConsentViewController: UIViewController {
 
 extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, ConsentCellDelegate {
   
-  func numberOfSections(in tableView: UITableView) -> Int {
+  public func numberOfSections(in tableView: UITableView) -> Int {
     cells.removeAll()
     cells.append(.title)
     radios.removeAll()
