@@ -253,7 +253,7 @@ class ContentFooterCell: ConsentCell {
 
 
 @objc
-class ConsentViewController: UIViewController {
+public class ConsentViewController: UIViewController {
   
   public var options: ConsentOptions {
     didSet {
