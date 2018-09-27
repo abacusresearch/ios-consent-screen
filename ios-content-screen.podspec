@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.summary      = "A short description of ios-consent-screen."
 
   s.description  = <<-DESC
-                 Abacus ios-consent-screen Library
+                 Abacus ios-consent-screen Library 
                  DESC
 
   s.homepage     = "http://EXAMPLE/ios-consent-screen"
