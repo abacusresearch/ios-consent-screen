@@ -11,7 +11,7 @@ import PureLayout
 import DLRadioButton
 
 @objc
-enum ConsentOption: Int {
+public enum ConsentOption: Int {
   case NoReporting = 0
   case BugReporting = 1
   case FullReporting = 2
@@ -19,9 +19,9 @@ enum ConsentOption: Int {
 
 @objc
 public class ConsentOptions: NSObject {
-  var allowsDiagnoseReporting: Bool = true
-  var allowsBugReporting: Bool = true
-  var allowsNoReporting: Bool = true
+  public var allowsDiagnoseReporting: Bool = true
+  public var allowsBugReporting: Bool = true
+  public var allowsNoReporting: Bool = true
 }
 
 @objc
@@ -59,7 +59,7 @@ struct ConsentUIDefaults {
 }
 
 @objc
-protocol ConsentScreenDelegate {
+public protocol ConsentScreenDelegate {
   func consentScreenCommited(chosenOption: ConsentOption)
 }
 
@@ -322,7 +322,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     return 1;
   }
   
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return cells.count;
   }
   
@@ -342,7 +342,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     }
   }
   
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cellType = CellTypes.allCases[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: cellType.rawValue) as! ConsentCell
     cell.options = options
