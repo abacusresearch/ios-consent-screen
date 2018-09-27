@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.author       = { "Roger Misteli" => "roger.misteli@abacus.ch" }
   s.platform     = :ios, "10.0"
 
-  s.source       = { :git => "https://github.com/fuggly/ios-consent-screen.git", :tag => "#{s.version}" }
+  s.source       = { :path => ".", :tag => "#{s.version}" }
   s.source_files = "ios-consent-screen/Classes/*.{swift}"
   s.resources = "ios-consent-screen/Resources/**/*"
 
