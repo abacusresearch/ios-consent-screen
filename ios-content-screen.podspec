@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 
-  s.name         = "ios-consent-screen"
+  s.name         = "ConsentScreen"
   s.version      = "1.0.0"
   s.summary      = "A short description of ios-consent-screen."
 
