@@ -23,8 +23,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "10.0"
 
   s.source       = { :git => "https://github.com/fuggly/ios-consent-screen.git", :tag => "#{s.version}" }
-  s.source_files = "ios-consent-screen/Source/*.{swift}"
-  s.resources = "ios-consent-screen/Resources/*.png"
+  s.source_files = "ios-consent-screen/Classes/*.{swift}"
+  s.resources = "ios-consent-screen/Resources/**/*"
 
   s.dependency "PureLayout"
   s.dependency "DLRadioButton"
