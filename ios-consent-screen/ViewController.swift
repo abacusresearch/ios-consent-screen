@@ -16,7 +16,7 @@ class ViewController: UIViewController, ConsentScreenDelegate {
   }
 
   @IBAction func tapped(_ sender: Any) {
-    let vc = ConsentViewController.init(nibName: nil, bundle: nil)
+    let vc = ConsentViewController()
     vc.delegate = self
     present(vc, animated: true, completion: nil)
   }

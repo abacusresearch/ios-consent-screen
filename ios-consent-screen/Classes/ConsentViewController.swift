@@ -12,9 +12,9 @@ import DLRadioButton
 
 @objc
 public enum ConsentOption: Int {
-  case NoReporting = 0
-  case BugReporting = 1
-  case FullReporting = 2
+  case noReporting = 0
+  case bugReporting = 1
+  case fullReporting = 2
 }
 
 @objc
@@ -265,7 +265,7 @@ public class ConsentViewController: UIViewController {
   var radios = [DLRadioButton]()
   var tableView = UITableView(frame: .zero, style: .plain)
   public var delegate: ConsentScreenDelegate?
-  public var selectedOption: ConsentOption = .FullReporting
+  public var selectedOption: ConsentOption = .fullReporting
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     options = ConsentOptions()
@@ -329,11 +329,11 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
   func consentCellTapped(chosenCell: CellTypes) {
     switch chosenCell {
     case .bugReporting:
-      self.selectedOption = .BugReporting
+      self.selectedOption = .bugReporting
     case .fullReporting:
-      self.selectedOption = .FullReporting
+      self.selectedOption = .fullReporting
     case .noReporting:
-      self.selectedOption = .NoReporting
+      self.selectedOption = .noReporting
     case .footer:
       self.delegate?.consentScreenCommited(chosenOption: self.selectedOption)
     default:
@@ -353,19 +353,19 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
       cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
-        radioCell.button.isSelected = selectedOption == .FullReporting
+        radioCell.button.isSelected = selectedOption == .fullReporting
       }
     case .noReporting:
       cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
-        radioCell.button.isSelected = selectedOption == .NoReporting
+        radioCell.button.isSelected = selectedOption == .noReporting
       }
     case .bugReporting:
       cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(), message: defaults.keyConsentOptionBugReportingMessage.localized())
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
-        radioCell.button.isSelected = selectedOption == .BugReporting
+        radioCell.button.isSelected = selectedOption == .bugReporting
       }
     case .footer:
       cell.setup(title: "", message: "")
