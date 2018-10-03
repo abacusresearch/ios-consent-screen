@@ -9,7 +9,7 @@ Add `github "abacusresearch/ios-consent-screen"` to your Cartfile and run cartha
 
 
 ## Setup with CocoaPods
-`pod 'ConsentScreen', :git => 'https://github.com/fuggly/ios-consent-screen'`
+`pod 'ConsentScreen', :git => 'https://github.com/abacusresearch/ios-consent-screen'`
 
 # Compatibility
 * Xcode
