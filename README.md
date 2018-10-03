@@ -31,9 +31,9 @@ self.present(vc, animated:true, completion: nil)
 ### Obj-C
 ```
 ConsentViewController* vc = [ConsentViewController new];
-vc.selectedOption = preferences.consent;
+vc.selectedOption = ConsentOptionFullReporting;
 vc.delegate = self;
-[self presentViewController:vc animated:YES completion:NULL];
+[self presentViewController:vc animated:YES completion:nil];
 ```
 
 ## React to user's input
