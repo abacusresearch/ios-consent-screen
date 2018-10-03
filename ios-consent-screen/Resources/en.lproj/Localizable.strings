@@ -9,7 +9,7 @@
 "consent options title" = "Ihre Diagnosedaten verbessern die App";
 "consent options message" = "Erlauben Sie uns, Diagnosedaten zu verwenden, um diese App sicherer, effizienter und fehlerfrei zu machen. Wählen Sie eine Option aus. Sie können diese Einstellung jederzeit ändern.";
 "consent options button confirm" = "Bestätigen";
-"consent options button information" = "Weitere Informationen";
+"consent options button information" = "Mit der Verwendung dieser App erklären Sie sich mit den aktuellen<Datenschutzbestimmungen>einverstanden";
 "consent cell no reporting title" = "Keine Diagnosedaten";
 "consent cell no reporting message" = "Es werden keine Diagnosedaten gesendet. Wir können Sie im Fehlerfall unter Umständen nicht unterstützen.";
 "consent cell bug reporting title" = "Grundlegende Diagnosedaten";

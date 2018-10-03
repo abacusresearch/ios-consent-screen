@@ -157,7 +157,7 @@ class ContentTitleCell: ConsentCell {
     addSubview(titleLabel)
     addSubview(messageLabel)
     titleLabel.textAlignment = .natural
-    titleLabel.font = UIFont.boldSystemFont(ofSize: 22)
+    titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
     titleLabel.numberOfLines = 0
     
     titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
@@ -214,11 +214,11 @@ class ContentFooterCell: ConsentCell {
     
     buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
     buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
-    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: ConsentUIDefaults.detailOffset)
+    buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 30)
     buttonInformation.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
     buttonInformation.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
 
-    buttonInformation.setTitleColor(UIColor.darkSkyBlue, for: .normal)
+    buttonInformation.setTitleColor(UIColor.red, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     
     buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -235,7 +235,23 @@ class ContentFooterCell: ConsentCell {
   
   override func setup(title t: String, message m: String) {
     buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(), for: .normal)
-    buttonInformation.setTitle(defaults?.keyConsentInformation.localized(), for: .normal)
+    guard var text = defaults?.keyConsentInformation.localized() else {
+      return
+    }
+    
+    buttonInformation.titleLabel?.numberOfLines = 0
+
+    if text.contains("<") && text.contains(">") {
+      // Either I'm too fucking stupid or ranges in Swift are a fucking mess to deal with (probably both)
+      let startRange = NSRange(text.range(of: "<")!, in:text)
+      let endRange = NSRange(text.range(of: ">")!, in:text)
+      let range = NSUnionRange(startRange, endRange)
+      text = text.replacingOccurrences(of: "<", with: " ")
+      text = text.replacingOccurrences(of: ">", with: " ")
+      let title = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: UIColor.brownishGrey])
+      title.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkSkyBlue], range: range)
+      buttonInformation.setAttributedTitle(title, for: .normal)
+    }
   }
   
   @objc func buttonInfoTapped() {
@@ -348,6 +364,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     cell.options = options
     cell.defaults = defaults
     cell.delegate = self
+    cell.selectionStyle = .none
     switch cellType {
     case .fullReporting:
       cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
@@ -356,7 +373,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
         radioCell.button.isSelected = selectedOption == .fullReporting
       }
     case .noReporting:
-      cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionNoReportingMessage.localized())
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
         radioCell.button.isSelected = selectedOption == .noReporting
@@ -402,4 +419,19 @@ extension UIColor {
   @nonobjc class var brownishGrey: UIColor {
     return UIColor(white: 102.0 / 255.0, alpha: 1.0)
   }
+}
+
+extension UIFont {
+  
+  func withTraits(traits: UIFontDescriptor.SymbolicTraits...) -> UIFont {
+    if let descriptor = self.fontDescriptor.withSymbolicTraits(UIFontDescriptor.SymbolicTraits(traits)) {
+      return UIFont(descriptor: descriptor, size: 0)
+    }
+    return self
+  }
+  
+  func boldItalic() -> UIFont {
+    return withTraits(traits: .traitBold, .traitItalic)
+  }
+  
 }
