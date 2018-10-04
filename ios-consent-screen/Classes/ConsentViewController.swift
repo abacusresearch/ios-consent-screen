@@ -18,6 +18,13 @@ public enum ConsentOption: Int {
 }
 
 @objc
+public enum ConsentMode: Int {
+  case automatic = 0
+  case cellsOnly = 1
+  case cellsAndHeaderFooters = 2
+}
+
+@objc
 public class ConsentOptions: NSObject {
   public var allowsDiagnoseReporting: Bool = true
   public var allowsBugReporting: Bool = true
@@ -41,6 +48,7 @@ public class ConsentDefaults: NSObject {
 
 enum CellTypes: String, CaseIterable {
   case title = "title"
+  case subTitle = "subTitle"
   case fullReporting = "fullReporting"
   case bugReporting = "bugReporting"
   case noReporting = "noReporting"
@@ -67,7 +75,14 @@ protocol ConsentCellDelegate {
   func consentCellTapped(chosenCell: CellTypes)
 }
 
-class ConsentCell: UITableViewCell {
+protocol ConsentCellProtocol {
+  var options: ConsentOptions? { get }
+  var defaults: ConsentDefaults? { get }
+  var delegate: ConsentCellDelegate? { get }
+  func setup(title t: String, message m: String)
+}
+
+class ConsentCell: UITableViewCell, ConsentCellProtocol {
   var options: ConsentOptions?
   var defaults: ConsentDefaults?
   var delegate: ConsentCellDelegate?
@@ -146,16 +161,15 @@ class ConsentButtonCell: ConsentCell {
 
 
 
-
-class ContentTitleCell: ConsentCell {
-  
+class ConsentTitle: UIView, ConsentCellProtocol {
   var titleLabel = UILabel()
-  var messageLabel = UILabel()
-  
-  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-    super.init(style: style, reuseIdentifier: reuseIdentifier)
+  var options: ConsentOptions?
+  var defaults: ConsentDefaults?
+  var delegate: ConsentCellDelegate?
+
+  init() {
+    super.init(frame: .zero)
     addSubview(titleLabel)
-    addSubview(messageLabel)
     titleLabel.textAlignment = .natural
     titleLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
     titleLabel.numberOfLines = 0
@@ -163,26 +177,16 @@ class ContentTitleCell: ConsentCell {
     titleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
     titleLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
     titleLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
-    
-    messageLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: ConsentUIDefaults.titleOffset)
-    messageLabel.autoConstrainAttribute(.leading, to: .leading, of: titleLabel)
-    messageLabel.autoConstrainAttribute(.trailing, to: .trailing, of: titleLabel)
-    messageLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.blockOffset)
-    
-    messageLabel.textAlignment = .natural
-    messageLabel.font = UIFont.systemFont(ofSize: 15)
-    messageLabel.numberOfLines = 0
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-  }
-  
-  override func setup(title t: String, message m: String) {
-    titleLabel.text = defaults?.keyConsentTitle.localized()
-    messageLabel.text = defaults?.keyConsentMessage.localized()
+    titleLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
   }
 
+  required init?(coder aDecoder: NSCoder) {
+    super.init(frame: .zero)
+  }
+  
+  func setup(title t: String, message m: String) {
+    titleLabel.text = defaults?.keyConsentTitle.localized()
+  }
 }
 
 
@@ -190,15 +194,110 @@ class ContentTitleCell: ConsentCell {
 
 
 
+class ConsentSubtitle: UIView, ConsentCellProtocol {
+  var messageLabel = UILabel()
+  var options: ConsentOptions?
+  var defaults: ConsentDefaults?
+  var delegate: ConsentCellDelegate?
 
-class ContentFooterCell: ConsentCell {
+  init() {
+    super.init(frame: .zero)
+    addSubview(messageLabel)
+    messageLabel.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
+    messageLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
+    messageLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
+    messageLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.blockOffset)
+    
+    messageLabel.textAlignment = .natural
+    messageLabel.font = UIFont.systemFont(ofSize: 15)
+    messageLabel.numberOfLines = 0
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    super.init(frame: .zero)
+  }
   
-  var buttonConfirm = UIButton()
-  var buttonInformation = UIButton()
+  func setup(title t: String, message m: String) {
+    messageLabel.text = m
+  }
+}
+
+
+
+
+
+
+class ConsentTitleCell: ConsentCell {
+  
+  var title = ConsentTitle()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    addSubview(title)
+    title.autoPinEdgesToSuperviewEdges()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  override func setup(title t: String, message m: String) {
+    super.setup(title: t, message: m)
+    title.titleLabel.text = defaults?.keyConsentTitle.localized()
+  }
+  
+}
 
+
+
+
+
+
+class ConsentSubtitleCell: ConsentCell {
+  
+  var title = ConsentSubtitle()
+  
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    addSubview(title)
+    title.autoPinEdgesToSuperviewEdges()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  override func setup(title t: String, message m: String) {
+    super.setup(title: t, message: m)
+    title.messageLabel.text = defaults?.keyConsentMessage.localized()
+  }
+}
+
+
+
+
+
+
+class ConsentHeaderFooterView: UITableViewHeaderFooterView, ConsentCellProtocol {
+  var options: ConsentOptions?
+  var defaults: ConsentDefaults?
+  var delegate: ConsentCellDelegate?
+
+  func setup(title t: String, message m: String) {
+  }
+}
+
+class ConsentFooterView: UIView, ConsentCellProtocol {
+  
+  var options: ConsentOptions?
+  var defaults: ConsentDefaults?
+  var delegate: ConsentCellDelegate?
+
+  var buttonConfirm = UIButton()
+  var buttonInformation = UIButton()
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     addSubview(buttonConfirm)
     addSubview(buttonInformation)
     
@@ -206,8 +305,8 @@ class ContentFooterCell: ConsentCell {
     buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
     buttonConfirm.setTitleColor(UIColor.white, for: .normal)
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-
-    buttonConfirm.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.blockOffset)
+    
+    buttonConfirm.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
     buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
     buttonConfirm.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
     buttonConfirm.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
@@ -215,32 +314,36 @@ class ContentFooterCell: ConsentCell {
     buttonInformation.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
     buttonInformation.autoPinEdge(toSuperviewEdge: .trailing, withInset: ConsentUIDefaults.trailingOffset)
     buttonInformation.autoPinEdge(.top, to: .bottom, of: buttonConfirm, withOffset: 30)
-    buttonInformation.autoPinEdge(toSuperviewEdge: .bottom, withInset: ConsentUIDefaults.bottomOffset)
-    buttonInformation.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
-
+    buttonInformation.autoPinEdge(toSuperviewEdge: .bottom, withInset: 30)
+    //buttonInformation.autoSetDimension(.height, toSize: 50, relation: .greaterThanOrEqual)
+    
     buttonInformation.setTitleColor(UIColor.red, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     
     buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
   }
-
+  
   required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
+    super.init(frame: .zero)
   }
   
   @objc func buttonTapped() {
     self.delegate?.consentCellTapped(chosenCell: .footer)
   }
   
-  override func setup(title t: String, message m: String) {
+  @objc func buttonInfoTapped() {
+    UIApplication.shared.open(defaults!.privacyPolicyURL, options: [:], completionHandler: nil)
+  }
+  
+  func setup(title t: String, message m: String) {
     buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(), for: .normal)
     guard var text = defaults?.keyConsentInformation.localized() else {
       return
     }
     
     buttonInformation.titleLabel?.numberOfLines = 0
-
+    
     if text.contains("<") && text.contains(">") {
       // Either I'm too fucking stupid or ranges in Swift are a fucking mess to deal with (probably both)
       let startRange = NSRange(text.range(of: "<")!, in:text)
@@ -253,11 +356,103 @@ class ContentFooterCell: ConsentCell {
       buttonInformation.setAttributedTitle(title, for: .normal)
     }
   }
+
+}
+
+
+
+
+class ConsentFooter: ConsentHeaderFooterView {
+
+  var footer = ConsentFooterView()
   
-  @objc func buttonInfoTapped() {
-    UIApplication.shared.open(defaults!.privacyPolicyURL, options: [:], completionHandler: nil)
+  override init(reuseIdentifier: String?) {
+    super.init(reuseIdentifier: reuseIdentifier)
+
+    addSubview(footer)
+    footer.autoPinEdgesToSuperviewEdges()
+    self.backgroundView?.layer.cornerRadius = 5;
   }
 
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  @objc func buttonTapped() {
+    self.delegate?.consentCellTapped(chosenCell: .footer)
+  }
+  
+  override func setup(title t: String, message m: String) {
+    super.setup(title: t, message: m)
+    footer.defaults = self.defaults
+    footer.options = self.options
+    footer.delegate = self.delegate
+    footer.setup(title: t, message: m)
+  }
+  
+}
+
+
+
+
+
+
+
+class ConsentHeader: ConsentHeaderFooterView {
+  
+  var title = ConsentTitle()
+  
+  override init(reuseIdentifier: String?) {
+    super.init(reuseIdentifier: reuseIdentifier)
+    
+    addSubview(title)
+    title.autoPinEdgesToSuperviewEdges()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  @objc func buttonTapped() {
+    self.delegate?.consentCellTapped(chosenCell: .title)
+  }
+  
+  override func setup(title t: String, message m: String) {
+    super.setup(title: t, message: m)
+    title.defaults = self.defaults
+    title.options = self.options
+    title.delegate = self.delegate
+    title.setup(title: t, message: m)
+  }
+  
+}
+
+
+
+
+
+
+class ConsentFooterCell: ConsentCell {
+  
+  var title = ConsentFooter()
+  
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: reuseIdentifier)
+    addSubview(title)
+    title.autoPinEdgesToSuperviewEdges()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+  }
+  
+  override func setup(title t: String, message m: String) {
+    super.setup(title: t, message: m)
+    title.defaults = self.defaults
+    title.options = self.options
+    title.delegate = self.delegate
+    title.setup(title: t, message: m)
+  }
 }
 
 
@@ -277,6 +472,7 @@ public class ConsentViewController: UIViewController {
     }
   }
   public var defaults = ConsentDefaults()
+  public var mode: ConsentMode = .automatic
   var cells = [CellTypes]()
   var radios = [DLRadioButton]()
   var tableView = UITableView(frame: .zero, style: .plain)
@@ -302,8 +498,12 @@ public class ConsentViewController: UIViewController {
     tableView.dataSource = self
     tableView.separatorStyle = .none
     tableView.showsVerticalScrollIndicator = false
-    tableView.register(ContentTitleCell.self, forCellReuseIdentifier: CellTypes.title.rawValue)
-    tableView.register(ContentFooterCell.self, forCellReuseIdentifier: CellTypes.footer.rawValue)
+    tableView.register(ConsentHeader.self, forHeaderFooterViewReuseIdentifier: CellTypes.title.rawValue)
+    tableView.register(ConsentFooter.self, forHeaderFooterViewReuseIdentifier: CellTypes.footer.rawValue)
+
+    tableView.register(ConsentTitleCell.self, forCellReuseIdentifier: CellTypes.title.rawValue)
+    tableView.register(ConsentSubtitleCell.self, forCellReuseIdentifier: CellTypes.subTitle.rawValue)
+    tableView.register(ConsentFooterCell.self, forCellReuseIdentifier: CellTypes.footer.rawValue)
     tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.fullReporting.rawValue)
     tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.bugReporting.rawValue)
     tableView.register(ConsentButtonCell.self, forCellReuseIdentifier: CellTypes.noReporting.rawValue)
@@ -320,10 +520,32 @@ public class ConsentViewController: UIViewController {
 
 
 extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, ConsentCellDelegate {
+ 
+  internal func internalMode() -> ConsentMode {
+    var internalMode = mode
+    switch mode {
+    case .automatic:
+      if self.view.bounds.height < 700 {
+        internalMode = .cellsAndHeaderFooters
+      }
+      else {
+        internalMode = .cellsOnly
+      }
+    default:
+      // do nothing
+      break
+    }
+    return internalMode
+  }
   
   public func numberOfSections(in tableView: UITableView) -> Int {
     cells.removeAll()
-    cells.append(.title)
+    
+    if (internalMode() == .cellsOnly) {
+      cells.append(.title)
+    }
+
+    cells.append(.subTitle)
     radios.removeAll()
     if options.allowsNoReporting {
       cells.append(.noReporting)
@@ -334,7 +556,9 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     if options.allowsDiagnoseReporting {
       cells.append(.fullReporting)
     }
-    cells.append(.footer)
+    if (internalMode() == .cellsOnly) {
+      cells.append(.footer)
+    }
     return 1;
   }
   
@@ -358,8 +582,45 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     }
   }
   
+  public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    if (internalMode() == .cellsAndHeaderFooters) {
+      let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellTypes.title.rawValue) as! ConsentHeader
+      cell.options = options
+      cell.defaults = defaults
+      cell.delegate = self
+      
+      cell.setup(title: "", message: "")
+      
+      return cell
+    }
+    else {
+      return UIView()
+    }
+  }
+  
+  public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    if (internalMode() == .cellsAndHeaderFooters) {
+      let cell = tableView.dequeueReusableHeaderFooterView(withIdentifier: CellTypes.footer.rawValue) as! ConsentFooter
+      cell.options = options
+      cell.defaults = defaults
+      cell.delegate = self
+      
+      cell.setup(title: "", message: "")
+      radios.forEach { (button) in
+        button.otherButtons = radios.filter({ (included) -> Bool in
+          included != button
+        })
+      }
+      
+      return cell
+    }
+    else {
+      return UIView()
+    }
+  }
+  
   public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cellType = CellTypes.allCases[indexPath.row]
+    let cellType = cells[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: cellType.rawValue) as! ConsentCell
     cell.options = options
     cell.defaults = defaults
@@ -384,16 +645,18 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
         radios.append(radioCell.button)
         radioCell.button.isSelected = selectedOption == .bugReporting
       }
-    case .footer:
+    default:
       cell.setup(title: "", message: "")
+    }
+    
+    if indexPath.row == cells.count - 1 {
       radios.forEach { (button) in
         button.otherButtons = radios.filter({ (included) -> Bool in
           included != button
         })
       }
-    default:
-      cell.setup(title: "", message: "")
     }
+    
     return cell
   }
   
