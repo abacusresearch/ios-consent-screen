@@ -490,28 +490,28 @@ class ConsentFooterCell: ConsentCell {
 
 
 
-@objc
 /// A view controller that displays privacy policies and lets you chose what of your data can be used for analytics and bug reporting, if any at all.
+@objc
 public class ConsentViewController: UIViewController {
 
   /// defines the visual options for this view controller
-  public var options: ConsentOptions {
+  @objc public var options: ConsentOptions {
     didSet {
       updateViewConstraints()
     }
   }
   
   /// set this to specify your own localizable keys and/or content or a specific bundle to use
-  public var defaults = ConsentDefaults()
+  @objc public var defaults = ConsentDefaults()
   
   /// sets a specific mode on how the consent screen is being displayed
-  public var mode: ConsentMode = .automatic
+  @objc public var mode: ConsentMode = .automatic
   
   /// sets the delegate
-  public var delegate: ConsentScreenDelegate?
+  @objc public var delegate: ConsentScreenDelegate?
   
   /// sets the pre-selected consent option
-  public var selectedOption: ConsentOption = .fullReporting
+  @objc public var selectedOption: ConsentOption = .fullReporting
 
   var cells = [CellTypes]()
   var radios = [DLRadioButton]()
