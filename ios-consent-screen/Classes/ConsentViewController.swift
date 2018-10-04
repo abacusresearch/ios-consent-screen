@@ -13,58 +13,58 @@ import DLRadioButton
 @objc
 public enum ConsentOption: Int {
   /// this setting allows no reporting at all, neither analytics nor crash reports nor logging
-  case noReporting = 0
+  @objc case noReporting = 0
   
   /// this setting allows bug reporting, that is, crash reports and log files, but no analytics
-  case bugReporting = 1
+  @objc case bugReporting = 1
   
   /// this setting allows full reprting, that is, log files, crash reports, log files and whatsoever
-  case fullReporting = 2
+  @objc case fullReporting = 2
 }
 
 @objc
 public enum ConsentMode: Int {
   /// defines either cells and headers or cells only depending on the bounds of the view controller
-  case automatic = 0
+  @objc case automatic = 0
   
   /// defines that the tableview will use cells only. This is usually the case when the whole tableview can be displayed
-  case cellsOnly = 1
+  @objc case cellsOnly = 1
   
   /// defines that the tableview will display headers, footers and cells. The header and footer will not move whereas the subtitle and cells will
-  case cellsAndHeaderFooters = 2
+  @objc case cellsAndHeaderFooters = 2
 }
 
 @objc
 public class ConsentOptions: NSObject {
   /// allow full reporting as selectable option in the consent view controller
-  public var allowsDiagnoseReporting: Bool = true
+  @objc public var allowsDiagnoseReporting: Bool = true
   
   /// allow bug reporting as selectable option in the consent view controller
-  public var allowsBugReporting: Bool = true
+  @objc public var allowsBugReporting: Bool = true
   
   /// allow no reporting as selectable option in the consent view controller
-  public var allowsNoReporting: Bool = true
+  @objc public var allowsNoReporting: Bool = true
 }
 
 @objc
 /// override these keys if your localizable strings has other content to use
 public class ConsentDefaults: NSObject {
   /// the bundle to use for localized strings
-  var bundle: Bundle = Bundle(for: ConsentDefaults.self)
+  @objc public var bundle: Bundle = Bundle(for: ConsentDefaults.self)
   
   /// the URL of the privacy policy link to direct to when "more information" is tapped
-  var privacyPolicyURL: URL = URL.init(string: "https://www.abacus.ch/links/privacy-policy/mobile-apps")!
+  @objc public var privacyPolicyURL: URL = URL.init(string: "https://www.abacus.ch/links/privacy-policy/mobile-apps")!
   
-  var keyConsentTitle: String = "consent options title"
-  var keyConsentMessage: String = "consent options message"
-  var keyConsentOptionNoReportingTitle = "consent cell no reporting title"
-  var keyConsentOptionNoReportingMessage = "consent cell no reporting message"
-  var keyConsentOptionBugReportingTitle = "consent cell bug reporting title"
-  var keyConsentOptionBugReportingMessage = "consent cell bug reporting message"
-  var keyConsentOptionDiagnoseReportingTitle = "consent cell diagnose reporting title"
-  var keyConsentOptionDiagnoseReportingMessage = "consent cell diagnose reporting message"
-  var keyConsentConfirmation: String = "consent options button confirm"
-  var keyConsentInformation: String = "consent options button information"
+  @objc public var keyConsentTitle: String = "consent options title"
+  @objc public var keyConsentMessage: String = "consent options message"
+  @objc public var keyConsentOptionNoReportingTitle = "consent cell no reporting title"
+  @objc public var keyConsentOptionNoReportingMessage = "consent cell no reporting message"
+  @objc public var keyConsentOptionBugReportingTitle = "consent cell bug reporting title"
+  @objc public var keyConsentOptionBugReportingMessage = "consent cell bug reporting message"
+  @objc public var keyConsentOptionDiagnoseReportingTitle = "consent cell diagnose reporting title"
+  @objc public var keyConsentOptionDiagnoseReportingMessage = "consent cell diagnose reporting message"
+  @objc public var keyConsentConfirmation: String = "consent options button confirm"
+  @objc public var keyConsentInformation: String = "consent options button information"
 }
 
 enum CellTypes: String, CaseIterable {
