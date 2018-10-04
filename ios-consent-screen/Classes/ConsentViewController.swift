@@ -85,6 +85,7 @@ struct ConsentUIDefaults {
   static let titleOffset: CGFloat = 10
   static let detailOffset: CGFloat = 2
   static let blockOffset: CGFloat = 25
+  static let minimumHeightForSwitchMode: CGFloat = 700
 }
 
 @objc
@@ -562,7 +563,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     var internalMode = mode
     switch mode {
     case .automatic:
-      if self.view.bounds.height < 700 {
+      if self.view.bounds.height < ConsentUIDefaults.minimumHeightForSwitchMode {
         internalMode = .cellsAndHeaderFooters
       }
       else {
