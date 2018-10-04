@@ -13,25 +13,25 @@ import DLRadioButton
 @objc
 public enum ConsentOption: Int {
   /// this setting allows no reporting at all, neither analytics nor crash reports nor logging
-  @objc case noReporting = 0
+  case noReporting = 0
   
   /// this setting allows bug reporting, that is, crash reports and log files, but no analytics
-  @objc case bugReporting = 1
+  case bugReporting = 1
   
   /// this setting allows full reprting, that is, log files, crash reports, log files and whatsoever
-  @objc case fullReporting = 2
+  case fullReporting = 2
 }
 
 @objc
 public enum ConsentMode: Int {
   /// defines either cells and headers or cells only depending on the bounds of the view controller
-  @objc case automatic = 0
+  case automatic = 0
   
   /// defines that the tableview will use cells only. This is usually the case when the whole tableview can be displayed
-  @objc case cellsOnly = 1
+  case cellsOnly = 1
   
   /// defines that the tableview will display headers, footers and cells. The header and footer will not move whereas the subtitle and cells will
-  @objc case cellsAndHeaderFooters = 2
+  case cellsAndHeaderFooters = 2
 }
 
 @objc
