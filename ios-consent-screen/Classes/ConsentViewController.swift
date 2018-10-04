@@ -12,28 +12,49 @@ import DLRadioButton
 
 @objc
 public enum ConsentOption: Int {
+  /// this setting allows no reporting at all, neither analytics nor crash reports nor logging
   case noReporting = 0
+  
+  /// this setting allows bug reporting, that is, crash reports and log files, but no analytics
   case bugReporting = 1
+  
+  /// this setting allows full reprting, that is, log files, crash reports, log files and whatsoever
   case fullReporting = 2
 }
 
 @objc
 public enum ConsentMode: Int {
+  /// defines either cells and headers or cells only depending on the bounds of the view controller
   case automatic = 0
+  
+  /// defines that the tableview will use cells only. This is usually the case when the whole tableview can be displayed
   case cellsOnly = 1
+  
+  /// defines that the tableview will display headers, footers and cells. The header and footer will not move whereas the subtitle and cells will
   case cellsAndHeaderFooters = 2
 }
 
 @objc
 public class ConsentOptions: NSObject {
+  /// allow full reporting as selectable option in the consent view controller
   public var allowsDiagnoseReporting: Bool = true
+  
+  /// allow bug reporting as selectable option in the consent view controller
   public var allowsBugReporting: Bool = true
+  
+  /// allow no reporting as selectable option in the consent view controller
   public var allowsNoReporting: Bool = true
 }
 
 @objc
+/// override these keys if your localizable strings has other content to use
 public class ConsentDefaults: NSObject {
+  /// the bundle to use for localized strings
+  var bundle: Bundle = Bundle(for: ConsentDefaults.self)
+  
+  /// the URL of the privacy policy link to direct to when "more information" is tapped
   var privacyPolicyURL: URL = URL.init(string: "https://www.abacus.ch/links/privacy-policy/mobile-apps")!
+  
   var keyConsentTitle: String = "consent options title"
   var keyConsentMessage: String = "consent options message"
   var keyConsentOptionNoReportingTitle = "consent cell no reporting title"
@@ -68,6 +89,7 @@ struct ConsentUIDefaults {
 
 @objc
 public protocol ConsentScreenDelegate {
+  /// tells the delegate that the dialog has been committed with the chosen consent option
   func consentScreenCommited(chosenOption: ConsentOption)
 }
 
@@ -146,8 +168,8 @@ class ConsentButtonCell: ConsentCell {
   }
   
   override func setup(title t: String, message m: String) {
-    title.text = t.localized()
-    message.text = m.localized()
+    title.text = t.localized(withBundle: defaults?.bundle)
+    message.text = m.localized(withBundle: defaults?.bundle)
   }
   
   @objc func buttonTapped() {
@@ -185,7 +207,7 @@ class ConsentTitle: UIView, ConsentCellProtocol {
   }
   
   func setup(title t: String, message m: String) {
-    titleLabel.text = defaults?.keyConsentTitle.localized()
+    titleLabel.text = defaults?.keyConsentTitle.localized(withBundle: defaults?.bundle)
   }
 }
 
@@ -243,7 +265,7 @@ class ConsentTitleCell: ConsentCell {
   
   override func setup(title t: String, message m: String) {
     super.setup(title: t, message: m)
-    title.titleLabel.text = defaults?.keyConsentTitle.localized()
+    title.titleLabel.text = defaults?.keyConsentTitle.localized(withBundle: defaults?.bundle)
   }
   
 }
@@ -269,7 +291,7 @@ class ConsentSubtitleCell: ConsentCell {
   
   override func setup(title t: String, message m: String) {
     super.setup(title: t, message: m)
-    title.messageLabel.text = defaults?.keyConsentMessage.localized()
+    title.messageLabel.text = defaults?.keyConsentMessage.localized(withBundle: defaults?.bundle)
   }
 }
 
@@ -337,8 +359,8 @@ class ConsentFooterView: UIView, ConsentCellProtocol {
   }
   
   func setup(title t: String, message m: String) {
-    buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(), for: .normal)
-    guard var text = defaults?.keyConsentInformation.localized() else {
+    buttonConfirm.setTitle(defaults?.keyConsentConfirmation.localized(withBundle: defaults?.bundle), for: .normal)
+    guard var text = defaults?.keyConsentInformation.localized(withBundle: defaults?.bundle) else {
       return
     }
     
@@ -371,7 +393,9 @@ class ConsentFooter: ConsentHeaderFooterView {
 
     addSubview(footer)
     footer.autoPinEdgesToSuperviewEdges()
-    self.backgroundView?.layer.cornerRadius = 5;
+    self.backgroundView = UIView()
+    self.backgroundView!.backgroundColor = UIColor.footerBackground
+    self.backgroundView!.layer.cornerRadius = 10;
   }
 
   required init?(coder aDecoder: NSCoder) {
@@ -407,6 +431,8 @@ class ConsentHeader: ConsentHeaderFooterView {
     
     addSubview(title)
     title.autoPinEdgesToSuperviewEdges()
+    self.backgroundView = UIView()
+    self.backgroundView!.backgroundColor = UIColor.white
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -464,20 +490,31 @@ class ConsentFooterCell: ConsentCell {
 
 
 @objc
+/// A view controller that displays privacy policies and lets you chose what of your data can be used for analytics and bug reporting, if any at all.
 public class ConsentViewController: UIViewController {
-  
+
+  /// defines the visual options for this view controller
   public var options: ConsentOptions {
     didSet {
       updateViewConstraints()
     }
   }
+  
+  /// set this to specify your own localizable keys and/or content or a specific bundle to use
   public var defaults = ConsentDefaults()
+  
+  /// sets a specific mode on how the consent screen is being displayed
   public var mode: ConsentMode = .automatic
+  
+  /// sets the delegate
+  public var delegate: ConsentScreenDelegate?
+  
+  /// sets the pre-selected consent option
+  public var selectedOption: ConsentOption = .fullReporting
+
   var cells = [CellTypes]()
   var radios = [DLRadioButton]()
   var tableView = UITableView(frame: .zero, style: .plain)
-  public var delegate: ConsentScreenDelegate?
-  public var selectedOption: ConsentOption = .fullReporting
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     options = ConsentOptions()
@@ -628,19 +665,19 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     cell.selectionStyle = .none
     switch cellType {
     case .fullReporting:
-      cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionDiagnoseReportingTitle.localized(withBundle: defaults.bundle), message: defaults.keyConsentOptionDiagnoseReportingMessage.localized(withBundle: defaults.bundle))
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
         radioCell.button.isSelected = selectedOption == .fullReporting
       }
     case .noReporting:
-      cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(), message: defaults.keyConsentOptionNoReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionNoReportingTitle.localized(withBundle: defaults.bundle), message: defaults.keyConsentOptionNoReportingMessage.localized(withBundle: defaults.bundle))
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
         radioCell.button.isSelected = selectedOption == .noReporting
       }
     case .bugReporting:
-      cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(), message: defaults.keyConsentOptionBugReportingMessage.localized())
+      cell.setup(title: defaults.keyConsentOptionBugReportingTitle.localized(withBundle: defaults.bundle), message: defaults.keyConsentOptionBugReportingMessage.localized(withBundle: defaults.bundle))
       if let radioCell = cell as? ConsentButtonCell {
         radios.append(radioCell.button)
         radioCell.button.isSelected = selectedOption == .bugReporting
@@ -665,9 +702,8 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
 
 extension String {
   
-  func localized(withComment comment: String? = nil) -> String {
-    let bundle = Bundle.init(for: ConsentViewController.self)
-    return NSLocalizedString(self, bundle: bundle, comment: comment ?? "")
+  func localized(withBundle bundle: Bundle? = Bundle.init(for: ConsentViewController.self)) -> String {
+    return NSLocalizedString(self, bundle: bundle!, comment: "")
   }
   
 }
@@ -681,6 +717,10 @@ extension UIColor {
   
   @nonobjc class var brownishGrey: UIColor {
     return UIColor(white: 102.0 / 255.0, alpha: 1.0)
+  }
+
+  @nonobjc class var footerBackground: UIColor {
+    return UIColor(white: 0.97, alpha: 1.0)
   }
 }
 
