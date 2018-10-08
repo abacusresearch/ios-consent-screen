@@ -657,6 +657,14 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
     }
   }
   
+  public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension;
+  }
+  
+  private func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return UITableView.automaticDimension;
+  }
+  
   public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cellType = cells[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: cellType.rawValue) as! ConsentCell
