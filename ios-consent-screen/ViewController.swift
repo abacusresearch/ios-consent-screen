@@ -17,7 +17,13 @@ class ViewController: UIViewController, ConsentScreenDelegate {
 
   @IBAction func tapped(_ sender: Any) {
     let vc = ConsentViewController()
+    let options = ConsentOptions()
+    options.allowsDiagnoseReporting = false
+    options.allowsNoReporting = true
+    options.allowsBugReporting = true
+    vc.options = options
     vc.delegate = self
+    vc.modalPresentationStyle = .formSheet
     present(vc, animated: true, completion: nil)
   }
   
@@ -26,6 +32,6 @@ class ViewController: UIViewController, ConsentScreenDelegate {
       print ("You chose option \(chosenOption.rawValue)")
     }
   }
-  
+
 }
 

@@ -85,7 +85,7 @@ struct ConsentUIDefaults {
   static let titleOffset: CGFloat = 10
   static let detailOffset: CGFloat = 2
   static let blockOffset: CGFloat = 25
-  static let minimumHeightForSwitchMode: CGFloat = 700
+  static let minimumHeightForSwitchMode: CGFloat = 600
 }
 
 @objc
@@ -659,6 +659,14 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
   
   public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension;
+  }
+  
+  public func tableView(_ tableView: UITableView, estimatedHeightForFooterInSection section: Int) -> CGFloat {
+    return 10;
+  }
+  
+  public func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+    return 10;
   }
   
   private func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
