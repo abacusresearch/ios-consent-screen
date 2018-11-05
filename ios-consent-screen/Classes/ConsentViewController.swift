@@ -513,6 +513,8 @@ public class ConsentViewController: UIViewController {
   /// sets the pre-selected consent option
   @objc public var selectedOption: ConsentOption = .fullReporting
 
+  internal var _internalMode: ConsentMode?
+
   var cells = [CellTypes]()
   var radios = [DLRadioButton]()
   var tableView = UITableView(frame: .zero, style: .plain)
@@ -556,27 +558,30 @@ public class ConsentViewController: UIViewController {
 
 
 extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, ConsentCellDelegate {
- 
+  
   internal func internalMode() -> ConsentMode {
-    var internalMode = mode
-    switch mode {
-    case .automatic:
-      if UIDevice.current.userInterfaceIdiom == .phone {
-        if UIScreen.main.bounds.height < ConsentUIDefaults.minimumHeightForSwitchMode {
-          internalMode = .cellsAndHeaderFooters
+    if nil == _internalMode {
+      var internalMode = mode
+      switch mode {
+      case .automatic:
+        if UIDevice.current.userInterfaceIdiom == .phone {
+          if UIScreen.main.bounds.height < ConsentUIDefaults.minimumHeightForSwitchMode {
+            internalMode = .cellsAndHeaderFooters
+          }
+          else {
+            internalMode = .cellsOnly
+          }
         }
         else {
-          internalMode = .cellsOnly
+          internalMode = .cellsAndHeaderFooters
         }
+      default:
+        // do nothing
+        break
       }
-      else {
-        internalMode = .cellsAndHeaderFooters
-      }
-    default:
-      // do nothing
-      break
+      _internalMode = internalMode
     }
-    return internalMode
+    return _internalMode ?? .cellsAndHeaderFooters;
   }
   
   public func numberOfSections(in tableView: UITableView) -> Int {
