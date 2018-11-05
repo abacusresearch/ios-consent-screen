@@ -555,19 +555,22 @@ public class ConsentViewController: UIViewController {
 
 
 
-
-
 extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, ConsentCellDelegate {
  
   internal func internalMode() -> ConsentMode {
     var internalMode = mode
     switch mode {
     case .automatic:
-      if self.view.bounds.height < ConsentUIDefaults.minimumHeightForSwitchMode {
-        internalMode = .cellsAndHeaderFooters
+      if UIDevice.current.userInterfaceIdiom == .phone {
+        if UIScreen.main.bounds.height < ConsentUIDefaults.minimumHeightForSwitchMode {
+          internalMode = .cellsAndHeaderFooters
+        }
+        else {
+          internalMode = .cellsOnly
+        }
       }
       else {
-        internalMode = .cellsOnly
+        internalMode = .cellsAndHeaderFooters
       }
     default:
       // do nothing

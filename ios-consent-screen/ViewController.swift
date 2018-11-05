@@ -17,13 +17,13 @@ class ViewController: UIViewController, ConsentScreenDelegate {
 
   @IBAction func tapped(_ sender: Any) {
     let vc = ConsentViewController()
-    let options = ConsentOptions()
-    options.allowsDiagnoseReporting = false
-    options.allowsNoReporting = true
-    options.allowsBugReporting = true
-    vc.options = options
+//    let options = ConsentOptions()
+//    options.allowsDiagnoseReporting = true
+//    options.allowsNoReporting = true
+//    options.allowsBugReporting = true
+//    vc.options = options
     vc.delegate = self
-    vc.modalPresentationStyle = .formSheet
+//    vc.modalPresentationStyle = .formSheet
     present(vc, animated: true, completion: nil)
   }
   
