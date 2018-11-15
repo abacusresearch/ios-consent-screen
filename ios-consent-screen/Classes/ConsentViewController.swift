@@ -343,7 +343,7 @@ extension ConsentViewController: UITableViewDataSource, UITableViewDelegate, Con
   }
   
   public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cellType = CellTypes.allCases[indexPath.row]
+    let cellType = self.cells[indexPath.row]
     let cell = tableView.dequeueReusableCell(withIdentifier: cellType.rawValue) as! ConsentCell
     cell.options = options
     cell.defaults = defaults
