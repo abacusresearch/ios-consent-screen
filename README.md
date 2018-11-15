@@ -9,7 +9,7 @@ Add `github "abacusresearch/ios-consent-screen"` to your Cartfile and run cartha
 
 
 ## Setup with CocoaPods
-`pod 'ConsentScreen', :git => 'https://github.com/fuggly/ios-consent-screen'`
+`pod 'ConsentScreen', :git => 'https://github.com/abacusresearch/ios-consent-screen'`
 
 # Compatibility
 * Xcode
@@ -31,9 +31,9 @@ self.present(vc, animated:true, completion: nil)
 ### Obj-C
 ```
 ConsentViewController* vc = [ConsentViewController new];
-vc.selectedOption = preferences.consent;
+vc.selectedOption = ConsentOptionFullReporting;
 vc.delegate = self;
-[self presentViewController:vc animated:YES completion:NULL];
+[self presentViewController:vc animated:YES completion:nil];
 ```
 
 ## React to user's input

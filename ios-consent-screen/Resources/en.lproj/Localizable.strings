@@ -6,13 +6,13 @@
   Copyright © 2018 ABACUS Research AG. All rights reserved.
 */
 
-"consent options title" = "Ihre Diagnosedaten verbessern die App";
-"consent options message" = "Erlauben Sie uns, Diagnosedaten zu verwenden, um diese App sicherer, effizienter und fehlerfrei zu machen. Wählen Sie eine Option aus. Sie können diese Einstellung jederzeit ändern.";
-"consent options button confirm" = "Bestätigen";
-"consent options button information" = "Weitere Informationen";
-"consent cell no reporting title" = "Keine Diagnosedaten";
-"consent cell no reporting message" = "Es werden keine Diagnosedaten gesendet. Wir können Sie im Fehlerfall unter Umständen nicht unterstützen.";
-"consent cell bug reporting title" = "Grundlegende Diagnosedaten";
-"consent cell bug reporting message" = "Informationen zur Fehleranalyse und -diagnose senden.";
-"consent cell diagnose reporting title" = "Vollständige Diagnosedaten";
-"consent cell diagnose reporting message" = "Informationen darüber, wie Sie die App, Funktionen und Geräte verqwenden, werden zusätzlich zu den grundlegenden Diagnosedaten erhoben. Inhalte werden keine gesendet.";
+"consent options title" = " Your diagnostic data helps improve this app";
+"consent options message" = "Allow us to use diagnostic data to make this app safer, more efficient and error-free. Select an option. You can change this setting at any time.";
+"consent options button confirm" = "Confirm";
+"consent options button information" = "By using this app, you agree to the current<privacy policy>.";
+"consent cell no reporting title" = "No diagnostic data";
+"consent cell no reporting message" = "No diagnostic data will be sent. We may not be able to support you in the event of an error.";
+"consent cell bug reporting title" = "Basic diagnostic data";
+"consent cell bug reporting message" = "Send information for error diagnosis.";
+"consent cell diagnose reporting title" = "Complete diagnostic data";
+"consent cell diagnose reporting message" = "Information about how to use the app, functions and devices are collected in addition to the basic diagnostic data. Content is not sent.";
