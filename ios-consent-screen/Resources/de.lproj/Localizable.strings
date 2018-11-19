@@ -6,13 +6,13 @@
   Copyright © 2018 ABACUS Research AG. All rights reserved.
 */
 
-"consent options title" = "Ihre Diagnosedaten verbessern die App";
-"consent options message" = "Erlauben Sie uns, Diagnosedaten zu verwenden, um diese App sicherer, effizienter und fehlerfrei zu machen. Wählen Sie eine Option aus. Sie können diese Einstellung jederzeit ändern.";
-"consent options button confirm" = "Bestätigen";
-"consent options button information" = "Mit der Verwendung dieser App erklären Sie sich mit den aktuellen<Datenschutzbestimmungen>einverstanden";
-"consent cell no reporting title" = "Keine Diagnosedaten";
-"consent cell no reporting message" = "Es werden keine Diagnosedaten gesendet. Wir können Sie im Fehlerfall unter Umständen nicht unterstützen.";
-"consent cell bug reporting title" = "Grundlegende Diagnosedaten";
-"consent cell bug reporting message" = "Informationen zur Fehleranalyse und -diagnose senden.";
-"consent cell diagnose reporting title" = "Vollständige Diagnosedaten";
-"consent cell diagnose reporting message" = "Informationen darüber, wie Sie die App, Funktionen und Geräte verwenden, werden zusätzlich zu den grundlegenden Diagnosedaten erhoben. Inhalte werden keine gesendet.";
+"diagnosticdata_title" = "Ihre Diagnosedaten verbessern die App";
+"diagnosticdata_desc" = "Erlauben Sie uns Diagnosedaten zu verwenden, um diese App sicherer, effizienter und fehlerfrei zu machen. Wählen Sie eine Option aus. Sie können diese Einstellung jederzeit ändern.";
+"diagnosticdata_op1_title" = "Vollständige Diagnosedaten";
+"diagnosticdata_op1_message" = "Informationen darüber, wie Sie die App, Funktionen und Geräte verwenden, werden zusätzlich zu den grundlegenden Diagnosedaten erhoben. Inhalte werden keine gesendet.";
+"diagnosticdata_op2_title" = "Grundlegende Diagnosedaten";
+"diagnosticdata_op2_message" = "Informationen zur Fehleranalyse und -diagnose senden.";
+"diagnosticdata_op3_title" = "Keine Diagnosedaten";
+"diagnosticdata_op3_message" = "Es werden keine Diagnosedaten gesendet. Wir können Sie im Fehlerfall unter Umständen nicht unterstützen.";
+"diagnosticdata_footer" = "Mit der Verwendung dieser App erklären Sie sich mit den aktuellen <Datenschutzbestimmungen> einverstanden.";
+"diagnosticdata_confirm" = "Bestätigen";

@@ -55,16 +55,16 @@ public class ConsentDefaults: NSObject {
   /// the URL of the privacy policy link to direct to when "more information" is tapped
   @objc public var privacyPolicyURL: URL = URL.init(string: "https://www.abacus.ch/links/privacy-policy/mobile-apps")!
   
-  @objc public var keyConsentTitle: String = "consent options title"
-  @objc public var keyConsentMessage: String = "consent options message"
-  @objc public var keyConsentOptionNoReportingTitle = "consent cell no reporting title"
-  @objc public var keyConsentOptionNoReportingMessage = "consent cell no reporting message"
-  @objc public var keyConsentOptionBugReportingTitle = "consent cell bug reporting title"
-  @objc public var keyConsentOptionBugReportingMessage = "consent cell bug reporting message"
-  @objc public var keyConsentOptionDiagnoseReportingTitle = "consent cell diagnose reporting title"
-  @objc public var keyConsentOptionDiagnoseReportingMessage = "consent cell diagnose reporting message"
-  @objc public var keyConsentConfirmation: String = "consent options button confirm"
-  @objc public var keyConsentInformation: String = "consent options button information"
+  @objc public var keyConsentTitle: String = "diagnosticdata_title"
+  @objc public var keyConsentMessage: String = "diagnosticdata_desc"
+  @objc public var keyConsentOptionNoReportingTitle = "diagnosticdata_op3_title"
+  @objc public var keyConsentOptionNoReportingMessage = "diagnosticdata_op3_message"
+  @objc public var keyConsentOptionBugReportingTitle = "diagnosticdata_op2_title"
+  @objc public var keyConsentOptionBugReportingMessage = "diagnosticdata_op2_message"
+  @objc public var keyConsentOptionDiagnoseReportingTitle = "diagnosticdata_op1_title"
+  @objc public var keyConsentOptionDiagnoseReportingMessage = "diagnosticdata_op1_message"
+  @objc public var keyConsentConfirmation: String = "diagnosticdata_confirm"
+  @objc public var keyConsentInformation: String = "diagnosticdata_footer"
 }
 
 enum CellTypes: String, CaseIterable {

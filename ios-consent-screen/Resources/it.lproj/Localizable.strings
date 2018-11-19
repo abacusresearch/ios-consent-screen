@@ -1,0 +1,18 @@
+/* 
+  Localizable.strings
+  ios-consent-screen
+
+  Created by Roger Misteli on 25.09.18.
+  Copyright © 2018 ABACUS Research AG. All rights reserved.
+*/
+
+"diagnosticdata_title" = "I tuoi dati diagnostici contribuiscono a migliorare questa app";
+"diagnosticdata_desc" = "Acconsenti all’utilizzo da parte nostra dei dati diagnostici per rendere questa app più sicura, più efficiente e senza errori. Selezionare un’opzione. È possibile modificare questa impostazione in qualsiasi momento.";
+"diagnosticdata_op1_title" = "Dati diagnostici completi";
+"diagnosticdata_op1_message" = "Oltre ai dati diagnostici di base, vengono raccolte le informazioni relative alle modalità di impiego dell’app, alle funzioni e ai dispositivi. Non vengono inviati contenuti.";
+"diagnosticdata_op2_title" = "Dati diagnostici di base";
+"diagnosticdata_op2_message" = "Invia informazioni per la diagnosi sugli errori.";
+"diagnosticdata_op3_title" = "Nessun dato diagnostico";
+"diagnosticdata_op3_message" = "Non verrà inviato alcun dato diagnostico. È possibile che non saremo in grado di aiutarti in caso di un errore.";
+"diagnosticdata_footer" = "Utilizzando questa app, acconsenti all’attuale <Politica in materia di privacy>.";
+"diagnosticdata_confirm" = "Conferma";
