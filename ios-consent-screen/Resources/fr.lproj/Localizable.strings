@@ -11,7 +11,7 @@
 "diagnosticdata_op1_title" = "Données de diagnostic complètes";
 "diagnosticdata_op1_message" = "En plus des données de diagnostic de base, des informations sur l'utilisation de l'application, des fonctions et des appareils sont collectées. Le contenu n'est pas envoyé.";
 "diagnosticdata_op2_title" = "Données de diagnostic de base";
-"diagnosticdata_op2_message" = "Envoyer les informations pour l'analyse et le diagnostic des erreurs.<";
+"diagnosticdata_op2_message" = "Envoyer les informations pour l'analyse et le diagnostic des erreurs.";
 "diagnosticdata_op3_title" = "Aucune donnée de diagnostic";
 "diagnosticdata_op3_message" = "Aucune donnée de diagnostic n'est envoyée. Nous pourrions ne pas être en mesure de vous aider en cas d'erreur.";
 "diagnosticdata_footer" = "En utilisant cette application, vous acceptez les dispositions en vigueur en matière de <protection des données>.";
