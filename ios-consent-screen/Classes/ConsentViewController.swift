@@ -116,7 +116,14 @@ class ConsentCell: UITableViewCell, ConsentCellProtocol {
 
 
 
-
+public class ConsentStyle {
+    @objc public static var backgroundColor = UIColor.white
+    @objc public static var textColor = UIColor(white: 102.0 / 255.0, alpha: 1.0)
+    @objc public static var footerBackgroundColor = UIColor(white: 0.97, alpha: 1.0)
+    @objc public static var indicatorBorderColor = UIColor(white: 0.97, alpha: 1.0)
+    @objc public static var indicatorColor = UIColor(red: 54.0 / 255.0, green: 129.0 / 255.0, blue: 221.0 / 255.0, alpha: 1.0)
+    @objc public static var iconSize: CGFloat = 23
+}
 
 class ConsentButtonCell: ConsentCell {
   let button = DLRadioButton()
@@ -137,11 +144,11 @@ class ConsentButtonCell: ConsentCell {
     message.textAlignment = .natural
     message.numberOfLines = 0
     message.font = UIFont.systemFont(ofSize: 15)
-    message.textColor = UIColor.brownishGrey
+    message.textColor = ConsentStyle.textColor
     
-    button.iconSize = 23
-    button.iconColor = UIColor.darkSkyBlue
-    button.indicatorColor = UIColor.darkSkyBlue
+    button.iconSize = ConsentStyle.iconSize
+    button.iconColor = ConsentStyle.indicatorBorderColor
+    button.indicatorColor = ConsentStyle.indicatorColor
     
     addSubview(button)
     addSubview(title)
@@ -325,7 +332,7 @@ class ConsentFooterView: UIView, ConsentCellProtocol {
     addSubview(buttonInformation)
     
     buttonConfirm.layer.cornerRadius = 8
-    buttonConfirm.layer.backgroundColor = UIColor.darkSkyBlue.cgColor
+    buttonConfirm.layer.backgroundColor = ConsentStyle.indicatorColor.cgColor
     buttonConfirm.setTitleColor(UIColor.white, for: .normal)
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
     
@@ -374,8 +381,8 @@ class ConsentFooterView: UIView, ConsentCellProtocol {
       let range = NSUnionRange(startRange, endRange)
       text = text.replacingOccurrences(of: "<", with: " ")
       text = text.replacingOccurrences(of: ">", with: " ")
-      let title = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: UIColor.brownishGrey])
-      title.setAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkSkyBlue], range: range)
+      let title = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor: ConsentStyle.textColor])
+      title.setAttributes([NSAttributedString.Key.foregroundColor: ConsentStyle.indicatorColor], range: range)
       buttonInformation.setAttributedTitle(title, for: .normal)
     }
   }
@@ -395,7 +402,7 @@ class ConsentFooter: ConsentHeaderFooterView {
     addSubview(footer)
     footer.autoPinEdgesToSuperviewEdges()
     self.backgroundView = UIView()
-    self.backgroundView!.backgroundColor = UIColor.footerBackground
+    self.backgroundView!.backgroundColor = ConsentStyle.footerBackgroundColor
     self.backgroundView!.layer.cornerRadius = 10;
   }
 
@@ -731,22 +738,6 @@ extension String {
     return NSLocalizedString(self, bundle: bundle!, comment: "")
   }
   
-}
-
-
-extension UIColor {
-  
-  @nonobjc class var darkSkyBlue: UIColor {
-    return UIColor(red: 54.0 / 255.0, green: 129.0 / 255.0, blue: 221.0 / 255.0, alpha: 1.0)
-  }
-  
-  @nonobjc class var brownishGrey: UIColor {
-    return UIColor(white: 102.0 / 255.0, alpha: 1.0)
-  }
-
-  @nonobjc class var footerBackground: UIColor {
-    return UIColor(white: 0.97, alpha: 1.0)
-  }
 }
 
 extension UIFont {
