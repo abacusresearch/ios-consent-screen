@@ -335,6 +335,8 @@ class ConsentFooterView: UIView, ConsentCellProtocol {
     buttonConfirm.layer.backgroundColor = ConsentStyle.indicatorColor.cgColor
     buttonConfirm.setTitleColor(UIColor.white, for: .normal)
     buttonConfirm.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+    buttonConfirm.isAccessibilityElement = true
+    buttonConfirm.accessibilityIdentifier = "consent_button_confirm"
     
     buttonConfirm.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
     buttonConfirm.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
@@ -349,6 +351,8 @@ class ConsentFooterView: UIView, ConsentCellProtocol {
     
     buttonInformation.setTitleColor(UIColor.red, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+    buttonConfirm.isAccessibilityElement = true
+    buttonConfirm.accessibilityIdentifier = "consent_button_information"
     
     buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
