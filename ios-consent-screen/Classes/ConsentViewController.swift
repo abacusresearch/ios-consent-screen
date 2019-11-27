@@ -351,8 +351,8 @@ class ConsentFooterView: UIView, ConsentCellProtocol {
     
     buttonInformation.setTitleColor(UIColor.red, for: .normal)
     buttonInformation.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-    buttonConfirm.isAccessibilityElement = true
-    buttonConfirm.accessibilityIdentifier = "consent_button_information"
+    buttonInformation.isAccessibilityElement = true
+    buttonInformation.accessibilityIdentifier = "consent_button_information"
     
     buttonConfirm.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     buttonInformation.addTarget(self, action: #selector(buttonInfoTapped), for: .touchUpInside)
