@@ -21,6 +21,7 @@ Pod::Spec.new do |s|
   s.license      = "Abacus Proprietary (All Rights reserved)"
   s.author       = { "Roger Misteli" => "roger.misteli@abacus.ch" }
   s.platform     = :ios, "10.0"
+  s.swift_version = '4.2'
 
   s.source       = { :path => ".", :tag => "#{s.version}" }
   s.source_files = "ios-consent-screen/Classes/*.{swift}"
