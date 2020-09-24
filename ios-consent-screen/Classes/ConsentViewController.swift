@@ -150,9 +150,9 @@ class ConsentButtonCell: ConsentCell {
     button.iconColor = ConsentStyle.indicatorBorderColor
     button.indicatorColor = ConsentStyle.indicatorColor
     
-    addSubview(button)
-    addSubview(title)
-    addSubview(message)
+    contentView.addSubview(button)
+    contentView.addSubview(title)
+    contentView.addSubview(message)
     
     button.autoPinEdge(toSuperviewEdge: .top, withInset: ConsentUIDefaults.topOffset)
     button.autoPinEdge(toSuperviewEdge: .leading, withInset: ConsentUIDefaults.leadingOffset)
@@ -263,7 +263,7 @@ class ConsentTitleCell: ConsentCell {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    addSubview(title)
+    contentView.addSubview(title)
     title.autoPinEdgesToSuperviewEdges()
   }
   
@@ -289,7 +289,7 @@ class ConsentSubtitleCell: ConsentCell {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    addSubview(title)
+    contentView.addSubview(title)
     title.autoPinEdgesToSuperviewEdges()
   }
   
@@ -476,7 +476,7 @@ class ConsentFooterCell: ConsentCell {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    addSubview(title)
+    contentView.addSubview(title)
     title.autoPinEdgesToSuperviewEdges()
   }
   
